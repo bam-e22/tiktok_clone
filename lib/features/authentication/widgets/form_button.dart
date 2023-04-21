@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../constants/sizes.dart';
 
 class FormButton extends StatelessWidget {
+  final String text;
   final bool enabled;
   final void Function(BuildContext context)? onClick;
 
   const FormButton({
     super.key,
+    this.text = "Next",
     required this.enabled,
     this.onClick,
   });
@@ -32,8 +34,8 @@ class FormButton extends StatelessWidget {
               color: enabled ? Colors.white : Colors.grey.shade400,
               fontWeight: FontWeight.w600,
             ),
-            child: const Text(
-              'Next',
+            child: Text(
+              text,
               textAlign: TextAlign.center,
             ),
           ),

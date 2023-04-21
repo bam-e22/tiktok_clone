@@ -81,7 +81,8 @@ class _EmailScreenState extends State<EmailScreen> {
               ),
               Gaps.v16,
               TextField(
-                onEditingComplete: () => _onSubmit(context),
+                onEditingComplete: () => _onSubmit(
+                    context), // user presses the "done" button on the keyboard
                 autocorrect: false,
                 keyboardType: TextInputType.emailAddress,
                 controller: _emailController,
