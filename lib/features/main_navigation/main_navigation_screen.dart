@@ -29,7 +29,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     ),
   ];
 
-  void _onTap(int index) {
+  void _onDestinationTap(int index) {
     setState(() {
       print(index);
       _selectedIndex = index;
@@ -40,36 +40,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onTap,
-        selectedItemColor: Theme.of(context).primaryColor,
-        items: [
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.house),
-              label: "Home",
-              tooltip: "Home",
-              backgroundColor: Colors.amber),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-              label: "Search",
-              tooltip: "Search",
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.apple),
-              label: "Apple",
-              tooltip: "Apple",
-              backgroundColor: Colors.cyan),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.airbnb),
-              label: "Airbnb",
-              tooltip: "Airbnb",
-              backgroundColor: Colors.yellow),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.adversal),
-              label: "Adversal",
-              tooltip: "Adversal",
-              backgroundColor: Colors.green),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onDestinationTap,
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        destinations: [
+          NavigationDestination(
+            icon: FaIcon(
+              FontAwesomeIcons.house,
+              color: Colors.teal,
+            ),
+            label: 'Home',
+            tooltip: 'Home',
+          ),
+          NavigationDestination(
+            icon: FaIcon(
+              FontAwesomeIcons.magnifyingGlass,
+              color: Colors.amber,
+            ),
+            label: 'Search',
+            tooltip: 'Search',
+          ),
         ],
       ),
     );
