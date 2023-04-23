@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 
 import '../../constants/sizes.dart';
@@ -70,6 +71,15 @@ class _InterestScreenState extends State<InterestScreen> {
     }
   }
 
+  void _onNextTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TutorialScreen(),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -133,24 +143,27 @@ class _InterestScreenState extends State<InterestScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            bottom: Sizes.size40,
-            top: Sizes.size16,
-            left: Sizes.size24,
-            right: Sizes.size24,
-          ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size20,
+        child: GestureDetector(
+          onTap: _onNextTap,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              bottom: Sizes.size40,
+              top: Sizes.size16,
+              left: Sizes.size24,
+              right: Sizes.size24,
             ),
-            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-            child: const Text(
-              "Next",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: Sizes.size16,
-                color: Colors.white,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size20,
+              ),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+              child: const Text(
+                "Next",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
