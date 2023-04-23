@@ -46,14 +46,14 @@ const interests = [
   "Home & Garden",
 ];
 
-class InterestScreen extends StatefulWidget {
-  const InterestScreen({Key? key}) : super(key: key);
+class InterestsScreen extends StatefulWidget {
+  const InterestsScreen({Key? key}) : super(key: key);
 
   @override
-  State<InterestScreen> createState() => _InterestScreenState();
+  State<InterestsScreen> createState() => _InterestsScreenState();
 }
 
-class _InterestScreenState extends State<InterestScreen> {
+class _InterestsScreenState extends State<InterestsScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _showTitle = false;
 

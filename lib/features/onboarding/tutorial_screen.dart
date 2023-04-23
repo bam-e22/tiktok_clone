@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 
 import '../../constants/sizes.dart';
 
@@ -43,6 +44,15 @@ class _TutorialScreenState extends State<TutorialScreen> {
         _showingPage = Page.first;
       });
     }
+  }
+
+  void _onEnterAppTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+    );
   }
 
   @override
@@ -107,20 +117,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: Sizes.size24,
               horizontal: Sizes.size24,
             ),
             child: AnimatedOpacity(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               opacity: _showingPage == Page.first ? 0 : 1,
               child: CupertinoButton(
                 onPressed: () {
                   if (_showingPage == Page.first) return;
-                  print('onPressed');
+                  _onEnterAppTap();
                 },
                 color: Theme.of(context).primaryColor,
-                child: Text('Enter the app!'),
+                child: const Text('Enter the app!'),
               ),
             ),
           ),
