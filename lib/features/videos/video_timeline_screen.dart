@@ -11,6 +11,7 @@ class VideoTimelineScreen extends StatefulWidget {
 
 class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   int _itemCount = 4;
+  final PageController _pageController = PageController();
   final List<Color> _colors = [
     Colors.blue,
     Colors.teal,
@@ -19,6 +20,13 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   ];
 
   void _onPageChanged(int page) {
+    // TODO: 강제로 animate 하지 말고 pageView 스펙 자체를 변경할 수는 없을까?
+    _pageController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.linear,
+    );
+
     var moreItemCount = 4;
     if (page == _itemCount - 1) {
       for (var i = 0; i < moreItemCount; i++) {
@@ -28,13 +36,13 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
       setState(() {
         _itemCount += moreItemCount;
       });
-      print("_itemCount= $_itemCount, colors= $_colors");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      controller: _pageController,
       scrollDirection: Axis.vertical,
       itemCount: _itemCount,
       onPageChanged: _onPageChanged,
