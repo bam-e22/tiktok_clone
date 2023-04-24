@@ -50,9 +50,8 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
       scrollDirection: Axis.vertical,
       itemCount: _itemCount,
       onPageChanged: _onPageChanged,
-      itemBuilder: (context, index) => VideoPost(
-        onVideoFinished: _onVideoFinished,
-      ),
+      itemBuilder: (context, index) =>
+          VideoPost(onVideoFinished: _onVideoFinished, index: index),
     );
   }
 }

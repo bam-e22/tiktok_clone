@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPost extends StatefulWidget {
   const VideoPost({
     Key? key,
     required this.onVideoFinished,
+    required this.index,
   }) : super(key: key);
 
   final Function onVideoFinished;
+  final int index;
 
   @override
   State<VideoPost> createState() => _VideoPostState();
@@ -28,9 +31,22 @@ class _VideoPostState extends State<VideoPost> {
 
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
-    _videoPlayerController.play();
-    setState(() {});
     _videoPlayerController.addListener(_onVideoChange);
+    setState(() {});
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.play();
+    }
+  }
+
+  void _onTogglePause() {
+    if (_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.pause();
+    } else {
+      _videoPlayerController.play();
+    }
   }
 
   @override
@@ -47,16 +63,24 @@ class _VideoPostState extends State<VideoPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: _videoPlayerController.value.isInitialized
-              ? VideoPlayer(_videoPlayerController)
-              : Container(
-                  color: Colors.black,
-                ),
-        )
-      ],
+    return VisibilityDetector(
+      key: Key("${widget.index}"),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: _videoPlayerController.value.isInitialized
+                ? VideoPlayer(_videoPlayerController)
+                : Container(
+                    color: Colors.black,
+                  ),
+          ),
+          Positioned.fill(
+              child: GestureDetector(
+            onTap: _onTogglePause,
+          ))
+        ],
+      ),
     );
   }
 }
