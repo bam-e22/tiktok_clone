@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -76,9 +78,21 @@ class _VideoPostState extends State<VideoPost> {
                   ),
           ),
           Positioned.fill(
-              child: GestureDetector(
-            onTap: _onTogglePause,
-          ))
+            child: GestureDetector(
+              onTap: _onTogglePause,
+            ),
+          ),
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.play,
+                  color: Colors.white,
+                  size: Sizes.size52,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
