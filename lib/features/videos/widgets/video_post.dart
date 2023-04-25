@@ -80,16 +80,18 @@ class _VideoPostState extends State<VideoPost>
       _onTogglePause();
     }
     await showModalBottomSheet(
-      context: context,
-      builder: (context) => const VideoComments(),
-      backgroundColor: Colors.transparent,
-      clipBehavior: Clip.hardEdge,
+        context: context,
+        builder: (context) => const VideoComments(),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true
+        // NOTE: BottomSheet shape 변경할 수 있는 또다른 방법
+        /*clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(Sizes.size16),
         ),
-      ),
-    );
+      ),*/
+        );
     _onTogglePause();
   }
 
