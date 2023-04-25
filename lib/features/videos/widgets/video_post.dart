@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -26,6 +28,7 @@ class _VideoPostState extends State<VideoPost>
   bool _isPaused = false;
   final Duration _animatedDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
+  bool _isTagTextExpanded = false;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -60,6 +63,12 @@ class _VideoPostState extends State<VideoPost>
 
     setState(() {
       _isPaused = !_isPaused;
+    });
+  }
+
+  void _toggleTagExpand() {
+    setState(() {
+      _isTagTextExpanded = !_isTagTextExpanded;
     });
   }
 
@@ -123,6 +132,118 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '@todd',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                const Text(
+                  'Hi Hi Hi',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size16,
+                  ),
+                ),
+                Gaps.v10,
+                Row(
+                  children: [
+                    Container(
+                      width: 280,
+                      child: Text(
+                        '#flutter #dart #koltin #android #ios #mobile #dev',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: Sizes.size16,
+                            fontWeight: FontWeight.w500,
+                            overflow: _isTagTextExpanded
+                                ? TextOverflow.visible
+                                : TextOverflow.ellipsis),
+                      ),
+                    ),
+                    Visibility(
+                      visible: !_isTagTextExpanded,
+                      child: GestureDetector(
+                        onTap: _toggleTagExpand,
+                        child: const Text(
+                          'See more',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: Sizes.size16,
+                              fontWeight: FontWeight.w600,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Visibility(
+                  visible: _isTagTextExpanded,
+                  child: Container(
+                    width: 280,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Gaps.v5,
+                        GestureDetector(
+                          onTap: _toggleTagExpand,
+                          child: const Text(
+                            'Simply',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: Sizes.size16,
+                                fontWeight: FontWeight.w600,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 10,
+            child: Column(
+              children: const [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  foregroundImage: NetworkImage(
+                      'https://avatars.githubusercontent.com/u/23008504?v=4'),
+                  child: Text('todd'),
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: '2,9M',
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidComment,
+                  text: '33K',
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.share,
+                  text: 'Share',
+                ),
+              ],
             ),
           )
         ],
