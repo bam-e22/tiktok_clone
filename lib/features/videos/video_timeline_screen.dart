@@ -38,6 +38,13 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
     );*/
   }
 
+  Future<void> _onRefresh() {
+    return Future.delayed(
+      // Fake api call
+      const Duration(seconds: 2),
+    );
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -46,13 +53,19 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: _pageController,
-      scrollDirection: Axis.vertical,
-      itemCount: _itemCount,
-      onPageChanged: _onPageChanged,
-      itemBuilder: (context, index) =>
-          VideoPost(onVideoFinished: _onVideoFinished, index: index),
+    return RefreshIndicator(
+      displacement: 50,
+      edgeOffset: 20,
+      color: Theme.of(context).primaryColor,
+      onRefresh: _onRefresh,
+      child: PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
+        itemCount: _itemCount,
+        onPageChanged: _onPageChanged,
+        itemBuilder: (context, index) =>
+            VideoPost(onVideoFinished: _onVideoFinished, index: index),
+      ),
     );
   }
 }
