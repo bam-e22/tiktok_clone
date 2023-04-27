@@ -49,7 +49,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: Container(),
+            child: Container(
+              color: Colors.white,
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
