@@ -156,10 +156,11 @@ class _VideoCommentsState extends State<VideoComments> {
                               decoration: InputDecoration(
                                   hintText: "Write a comment...",
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        Sizes.size12,
-                                      ),
-                                      borderSide: BorderSide.none),
+                                    borderRadius: BorderRadius.circular(
+                                      Sizes.size12,
+                                    ),
+                                    borderSide: BorderSide.none,
+                                  ),
                                   filled: true,
                                   fillColor: Colors.grey.shade200,
                                   contentPadding: const EdgeInsets.symmetric(
