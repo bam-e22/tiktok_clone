@@ -44,6 +44,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const FaIcon(
+                FontAwesomeIcons.sliders,
+                size: Sizes.size16 + Sizes.size2,
+              ),
+            )
+          ],
           elevation: 1,
           title: SizedBox(
             height: Sizes.size36,
@@ -117,11 +126,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Gaps.h16,
-                  const FaIcon(
-                    FontAwesomeIcons.sliders,
-                    size: Sizes.size16 + Sizes.size2,
                   ),
                 ],
               ),
