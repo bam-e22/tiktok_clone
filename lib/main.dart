@@ -18,6 +18,8 @@ class TikTokApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: const Color(0xFFE9435A),
           scaffoldBackgroundColor: Colors.white,
+          splashColor: Colors.transparent,
+          //splashFactory: NoSplash.splashFactory,
           textSelectionTheme: const TextSelectionThemeData(
             cursorColor: Color(0xFFE9435A),
           ),
