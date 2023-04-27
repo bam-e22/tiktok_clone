@@ -124,6 +124,10 @@ class _VideoCommentsState extends State<VideoComments> {
                         child: SizedBox(
                           height: Sizes.size44,
                           child: TextField(
+                            expands: true,
+                            minLines: null,
+                            maxLines: null,
+                            textInputAction: TextInputAction.newline,
                             cursorColor: Theme.of(context).primaryColor,
                             decoration: InputDecoration(
                               hintText: "Write a comment...",
