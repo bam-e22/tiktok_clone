@@ -121,20 +121,23 @@ class _VideoCommentsState extends State<VideoComments> {
                       ),
                       Gaps.h10,
                       Expanded(
-                        child: TextField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            hintText: "Write a comment...",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                  Sizes.size12,
-                                ),
-                                borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: Colors.grey.shade200,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: Sizes.size12,
-                              vertical: Sizes.size10,
+                        child: SizedBox(
+                          height: Sizes.size44,
+                          child: TextField(
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                              hintText: "Write a comment...",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Sizes.size12,
+                                  ),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey.shade200,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: Sizes.size12,
+                                vertical: Sizes.size10,
+                              ),
                             ),
                           ),
                         ),
