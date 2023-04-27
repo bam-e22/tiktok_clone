@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
@@ -34,7 +36,27 @@ class DiscoverScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            for (var tab in tabs)
+            GridView.builder(
+              itemCount: 20,
+              padding: EdgeInsets.symmetric(
+                horizontal: Sizes.size6,
+                vertical: Sizes.size6,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 9 / 16,
+                crossAxisCount: 2,
+                crossAxisSpacing: Sizes.size10,
+                mainAxisSpacing: Sizes.size10,
+              ),
+              itemBuilder: (context, index) => Container(
+                color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
+                    .withOpacity(1.0),
+                child: Center(
+                  child: Text('$index'),
+                ),
+              ),
+            ),
+            for (var tab in tabs.skip(1))
               Center(
                 child: Text(
                   tab,
