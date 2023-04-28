@@ -40,6 +40,8 @@ class _ActivityScreenState extends State<ActivityScreen>
     }
   ];
 
+  bool _showBarrier = false;
+
   late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 200),
@@ -55,17 +57,26 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: const Offset(0, 0),
   ).animate(_animationController);
 
+  late final Animation<Color?> _barrierAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black38,
+  ).animate(_animationController);
+
   void _onDismissed(String notification) {
     _notifications.remove(notification);
     setState(() {});
   }
 
-  void _onTitleTap() {
+  void _toggleAnimations() async {
     if (_animationController.isCompleted) {
-      _animationController.reverse();
+      // 패널이 닫힐때 AnimatedModalBarrier 애니메이션이 끝날때까지 widget tree에서 제거하지 않도록
+      await _animationController.reverse();
     } else {
       _animationController.forward();
     }
+    setState(() {
+      _showBarrier = !_showBarrier;
+    });
   }
 
   @override
@@ -73,7 +84,7 @@ class _ActivityScreenState extends State<ActivityScreen>
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-          onTap: _onTitleTap,
+          onTap: _toggleAnimations,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -192,6 +203,12 @@ class _ActivityScreenState extends State<ActivityScreen>
                 )
             ],
           ),
+          if (_showBarrier)
+            AnimatedModalBarrier(
+              dismissible: true,
+              onDismiss: _toggleAnimations,
+              color: _barrierAnimation,
+            ),
           SlideTransition(
             position: _panelAnimation,
             child: Container(
