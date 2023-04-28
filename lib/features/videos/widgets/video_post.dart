@@ -104,11 +104,12 @@ class _VideoPostState extends State<VideoPost>
     super.initState();
     _initVideoPlayer();
     _animationController = AnimationController(
-        vsync: this,
-        lowerBound: 1.0,
-        upperBound: 1.5,
-        value: 1.5,
-        duration: _animatedDuration);
+      vsync: this,
+      lowerBound: 1.0,
+      upperBound: 1.5,
+      value: 1.5,
+      duration: _animatedDuration,
+    );
   }
 
   @override
