@@ -12,7 +12,35 @@ class UserProfileScreen extends StatefulWidget {
   State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class _UserProfileScreenState extends State<UserProfileScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
+
+  late final Animation<double> _arrowAnimation = Tween(
+    begin: 0.0,
+    end: 0.5,
+  ).animate(_animationController);
+
+  void _onYoutubeButtonTap() {
+    print('_onYoutubeButtonTap');
+  }
+
+  void _onMoreButtonTap() {
+    print('_onMoreButtonTap');
+    _toggleAnimation();
+  }
+
+  void _toggleAnimation() {
+    if (_animationController.isCompleted) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -98,26 +126,76 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
                     Gaps.v14,
-                    FractionallySizedBox(
-                      widthFactor: 0.33,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: Sizes.size12,
-                        ),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(
-                              Sizes.size4,
-                            )),
-                        child: const Text(
-                          'Follow',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: FractionallySizedBox(
+                            widthFactor: 0.33,
+                            child: Container(
+                              height: Sizes.size48,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(
+                                  Sizes.size2,
+                                ),
+                              ),
+                              child: const Text(
+                                'Follow',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Gaps.h4,
+                        Container(
+                          height: Sizes.size48,
+                          width: Sizes.size48,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.shade400,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              Sizes.size2,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: _onYoutubeButtonTap,
+                            icon: const FaIcon(
+                              FontAwesomeIcons.youtube,
+                              size: Sizes.size24,
+                            ),
+                          ),
+                        ),
+                        Gaps.h4,
+                        Container(
+                          height: Sizes.size48,
+                          width: Sizes.size48,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.shade400,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              Sizes.size2,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: _onMoreButtonTap,
+                            icon: RotationTransition(
+                              turns: _arrowAnimation,
+                              child: const FaIcon(
+                                FontAwesomeIcons.caretDown,
+                                size: Sizes.size18,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                     Gaps.v14,
                     const Padding(
@@ -185,7 +263,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   );
                 },
               ),
-              Center(
+              const Center(
                 child: Text('Page 2'),
               )
             ],
