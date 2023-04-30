@@ -210,13 +210,13 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                     Gaps.v14,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const FaIcon(
+                      children: const [
+                        FaIcon(
                           FontAwesomeIcons.link,
                           size: Sizes.size12,
                         ),
                         Gaps.h4,
-                        const Text(
+                        Text(
                           'https://github.com/bam-e22',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -248,7 +248,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                   mainAxisSpacing: Sizes.size2,
                 ),
                 itemBuilder: (context, index) {
-                  return Column(
+                  return Stack(
                     children: [
                       AspectRatio(
                         aspectRatio: 9 / 14,
@@ -259,6 +259,29 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                               'https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80',
                         ),
                       ),
+                      Positioned(
+                        bottom: 5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.play_arrow_outlined,
+                              color: Colors.white,
+                              size: Sizes.size24,
+                            ),
+                            Gaps.h2,
+                            Text(
+                              '4.1M',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: Sizes.size14,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   );
                 },
