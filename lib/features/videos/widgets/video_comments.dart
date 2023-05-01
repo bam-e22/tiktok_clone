@@ -83,8 +83,8 @@ class _VideoCommentsState extends State<VideoComments> {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          child: Text("todd"),
                           backgroundColor: isDark ? Colors.grey.shade500 : null,
+                          child: Text("톧"),
                         ),
                         Gaps.h10,
                         Expanded(
@@ -130,11 +130,14 @@ class _VideoCommentsState extends State<VideoComments> {
               Positioned(
                 bottom: 0,
                 width: size.width,
-                child: BottomAppBar(
+                child: Container(
+                  color: Theme.of(context).bottomAppBarTheme.color,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.size16,
-                      vertical: Sizes.size10,
+                    padding: const EdgeInsets.only(
+                      left: Sizes.size16,
+                      right: Sizes.size16,
+                      top: Sizes.size10,
+                      bottom: Sizes.size32,
                     ),
                     child: Row(
                       children: [
@@ -142,7 +145,7 @@ class _VideoCommentsState extends State<VideoComments> {
                           radius: 18,
                           backgroundColor: Colors.grey.shade500,
                           foregroundColor: Colors.white,
-                          child: const Text("todd"),
+                          child: const Text("톧"),
                         ),
                         Gaps.h10,
                         Expanded(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'constants/sizes.dart';
-import 'features/main_navigation/main_navigation_screen.dart';
+import 'features/authentication/sign_up_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +20,7 @@ class TikTokApp extends StatelessWidget {
       title: 'Flutter Demo',
       themeMode: ThemeMode.system,
       theme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.light,
         textTheme: Typography.blackCupertino,
         primaryColor: const Color(0xFFE9435A),
@@ -43,6 +44,7 @@ class TikTokApp extends StatelessWidget {
           ),
         ),
         appBarTheme: const AppBarTheme(
+          surfaceTintColor: Colors.white,
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -52,11 +54,12 @@ class TikTokApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        listTileTheme: ListTileThemeData(
+        listTileTheme: const ListTileThemeData(
           iconColor: Colors.black,
         ),
       ),
       darkTheme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
         textTheme: Typography.whiteCupertino,
         primaryColor: const Color(0xFFE9435A),
@@ -65,6 +68,8 @@ class TikTokApp extends StatelessWidget {
           cursorColor: Color(0xFFE9435A),
         ),
         tabBarTheme: TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
           indicatorColor: Colors.white,
           indicator: const UnderlineTabIndicator(
             borderSide: BorderSide(
@@ -73,10 +78,12 @@ class TikTokApp extends StatelessWidget {
           ),
         ),
         appBarTheme: AppBarTheme(
+          actionsIconTheme: IconThemeData(color: Colors.grey.shade100),
+          surfaceTintColor: Colors.grey.shade900,
           foregroundColor: Colors.white,
           backgroundColor: Colors.grey.shade900,
           elevation: 0,
-          titleTextStyle: TextStyle(
+          titleTextStyle: const TextStyle(
             color: Colors.white,
             fontSize: Sizes.size16 + Sizes.size2,
             fontWeight: FontWeight.w600,
@@ -86,8 +93,8 @@ class TikTokApp extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      //home: const SignUpScreen(),
-      home: const MainNavigationScreen(), // for debugging
+      home: const SignUpScreen(),
+      //home: const MainNavigationScreen(), // for debugging
     );
   }
 }

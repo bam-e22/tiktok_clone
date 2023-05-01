@@ -115,13 +115,14 @@ class _TutorialScreenState extends State<TutorialScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: Container(
           color: isDarkMode(context) ? Colors.black : Colors.white,
-          elevation: 0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size24,
-              horizontal: Sizes.size24,
+            padding: const EdgeInsets.only(
+              top: Sizes.size32,
+              bottom: Sizes.size64,
+              left: Sizes.size24,
+              right: Sizes.size24,
             ),
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 300),
@@ -132,7 +133,12 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   _onEnterAppTap();
                 },
                 color: Theme.of(context).primaryColor,
-                child: const Text('Enter the app!'),
+                child: Text(
+                  'Enter the app!',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),

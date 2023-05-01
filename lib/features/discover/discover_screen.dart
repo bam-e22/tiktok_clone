@@ -179,7 +179,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         const Text(
                           "This is a very long caption for my tiktok that I'm upload just not currently.",
                           style: TextStyle(
-                            fontSize: Sizes.size16 + Sizes.size2,
+                            fontSize: Sizes.size16,
                             fontWeight: FontWeight.bold,
                           ),
                           maxLines: 2,
