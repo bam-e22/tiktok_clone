@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/sizes.dart';
+import '../../../utils.dart';
 
 class PostVideoButton extends StatefulWidget {
   const PostVideoButton({
@@ -41,6 +42,7 @@ class _PostVideoButtonState extends State<PostVideoButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return GestureDetector(
       onTapUp: (detail) => onTapUp(),
       onTapDown: (detail) => onTapDown(),
@@ -89,12 +91,16 @@ class _PostVideoButtonState extends State<PostVideoButton> {
                 horizontal: Sizes.size12,
               ),
               decoration: BoxDecoration(
-                  color: widget.isInverted ? Colors.black : Colors.white,
+                  color: !widget.isInverted || isDark
+                      ? Colors.white
+                      : Colors.black,
                   borderRadius: BorderRadius.circular(Sizes.size6)),
               child: Center(
                 child: FaIcon(
                   FontAwesomeIcons.plus,
-                  color: widget.isInverted ? Colors.white : Colors.black,
+                  color: !widget.isInverted || isDark
+                      ? Colors.black
+                      : Colors.white,
                   size: 18,
                 ),
               ),

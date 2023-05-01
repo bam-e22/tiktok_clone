@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 final tabs = ['Top', 'Users', 'Videos', 'Sounds', 'LIVE', 'Shopping', 'Brands'];
 
@@ -59,10 +60,13 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 horizontal: Sizes.size2,
               ),
               child: ConstrainedBox(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   maxWidth: Breakpoints.sm,
                 ),
                 child: TextField(
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                   onChanged: _onSearchChanged,
                   onSubmitted: _onSearchSubmitted,
                   controller: _textEditingController,
@@ -127,9 +131,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               horizontal: Sizes.size16,
             ),
             isScrollable: true,
-            indicatorColor: Colors.black,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey.shade500,
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16,
@@ -186,11 +187,13 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         ),
                         Gaps.v8,
                         // 부모 widget의 constraint에 따라 조절하는 예제
-                        if (constraints.maxWidth < 200 ||
+                        if (constraints.maxWidth < 210 ||
                             constraints.maxWidth > 250)
                           DefaultTextStyle(
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDarkMode(context)
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade600,
                               fontWeight: FontWeight.bold,
                             ),
                             child: Row(
