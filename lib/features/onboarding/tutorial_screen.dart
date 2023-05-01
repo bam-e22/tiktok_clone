@@ -4,6 +4,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 
 import '../../constants/sizes.dart';
+import '../../utils.dart';
 
 enum Direction {
   right,
@@ -115,6 +116,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
+          color: isDarkMode(context) ? Colors.black : Colors.white,
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.symmetric(
