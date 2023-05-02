@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -30,20 +31,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: ListView(
         children: [
           SwitchListTile.adaptive(
             value: _notifications,
             onChanged: _onNotificationsChanged,
-            title: Text('Enable notifications'),
+            title: const Text('Enable notifications'),
           ),
           CheckboxListTile(
             value: _marketingEmails,
             onChanged: _onMarketingEmailsChanged,
-            title: Text('Marketing emails'),
-            subtitle: Text("We won't spam you."),
+            title: const Text('Marketing emails'),
+            subtitle: const Text("We won't spam you."),
             activeColor: Theme.of(context).primaryColor,
           ),
           ListTile(
@@ -54,98 +55,107 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 firstDate: DateTime(1980),
                 lastDate: DateTime(2030),
               );
-              print("date= $date");
+              if (kDebugMode) {
+                print("date= $date");
+              }
+
+              if (!mounted) return;
               final time = await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
               );
-              print("time= $time");
+              if (kDebugMode) {
+                print("time= $time");
+              }
+              if (!mounted) return;
               final booking = await showDateRangePicker(
                 context: context,
                 firstDate: DateTime(1980),
                 lastDate: DateTime(2030),
                 builder: (context, child) {
                   return Theme(
-                    child: child!,
                     data: ThemeData(
-                        appBarTheme: AppBarTheme(
+                        appBarTheme: const AppBarTheme(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.black,
                     )),
+                    child: child!,
                   );
                 },
               );
-              print("booking= $booking");
+              if (kDebugMode) {
+                print("booking= $booking");
+              }
             },
-            title: Text('What is your birthday?'),
+            title: const Text('What is your birthday?'),
           ),
-          AboutListTile(),
+          const AboutListTile(),
           ListTile(
-            title: Text(
+            title: const Text(
               'Log out (iOS)',
             ),
             textColor: Colors.red,
             onTap: () => showCupertinoDialog(
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                title: Text("Are you sure?"),
-                content: Text("Please don't go"),
+                title: const Text("Are you sure?"),
+                content: const Text("Please don't go"),
                 actions: [
                   CupertinoDialogAction(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('No'),
+                    child: const Text('No'),
                   ),
                   CupertinoDialogAction(
                     onPressed: () => Navigator.of(context).pop(),
                     isDestructiveAction: true,
-                    child: Text('Yes'),
+                    child: const Text('Yes'),
                   ),
                 ],
               ),
             ),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Log out (Android)',
             ),
             textColor: Colors.red,
             onTap: () => showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text("Are you sure?"),
-                content: Text("Please don't go"),
+                title: const Text("Are you sure?"),
+                content: const Text("Please don't go"),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('No'),
+                    child: const Text('No'),
                   ),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Yes'),
+                    child: const Text('Yes'),
                   ),
                 ],
               ),
             ),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Log out (iOS / Bottom)',
             ),
             textColor: Colors.red,
             onTap: () => showCupertinoModalPopup(
               context: context,
               builder: (context) => CupertinoActionSheet(
-                title: Text("Are you sure?"),
-                message: Text("Please don't go"),
+                title: const Text("Are you sure?"),
+                message: const Text("Please don't go"),
                 actions: [
                   CupertinoActionSheetAction(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Not log out'),
+                    child: const Text('Not log out'),
                   ),
                   CupertinoActionSheetAction(
                     onPressed: () => Navigator.of(context).pop(),
                     isDestructiveAction: true,
-                    child: Text('Yes please'),
+                    child: const Text('Yes please'),
                   )
                 ],
               ),
