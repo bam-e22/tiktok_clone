@@ -20,17 +20,21 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ko';
 
-  static String m0(nameOfTheApp) => "${nameOfTheApp}에 로그인하세요";
+  static String m0(gender) =>
+      "Log in ${Intl.gender(gender, female: 'madam', male: 'sir', other: 'human')}";
 
-  static String m1(videoCount) =>
+  static String m1(nameOfTheApp) => "${nameOfTheApp}에 로그인하세요";
+
+  static String m2(videoCount) =>
       "Create a profile, follow other accounts, make your own ${Intl.plural(videoCount, zero: 'no videos', one: 'video', other: 'videos')}, and more.";
 
-  static String m2(nameOfTheApp) => "${nameOfTheApp}에 가입하세요";
+  static String m3(nameOfTheApp) => "${nameOfTheApp}에 가입하세요";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "loginTitle": m0,
-        "signUpSubtitle": m1,
-        "signUpTitle": m2
+        "logIn": m0,
+        "loginTitle": m1,
+        "signUpSubtitle": m2,
+        "signUpTitle": m3
       };
 }
