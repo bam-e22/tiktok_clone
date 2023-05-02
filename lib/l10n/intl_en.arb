@@ -1,0 +1,23 @@
+{
+  "signUpTitle": "Sign up for {nameOfTheApp}",
+  "@signUpTitle": {
+    "description": "The title people see when they open the app for the first time.",
+    "placeholders": {
+      "nameOfTheApp": {
+        "type": "String",
+        "example": "TokTok"
+      }
+    }
+  },
+  "loginTitle": "Log into your {nameOfTheApp} account",
+  "@signUpTitle": {
+    "description": "The title people see when they open the login screen.",
+    "placeholders": {
+      "nameOfTheApp": {
+        "type": "String",
+        "example": "TokTok"
+      }
+    }
+  },
+  "signUpSubtitle": "Create a profile, follow other accounts, make your own videos, and more."
+}
