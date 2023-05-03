@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
@@ -25,7 +26,19 @@ final router = GoRouter(
     ),
     GoRoute(
       path: Routes.UsernameScreen,
-      builder: (context, state) => UsernameScreen(),
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: UsernameScreen(),
+          transitionDuration: Duration(milliseconds: 300),
+          reverseTransitionDuration: Duration(milliseconds: 300),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
     ),
     GoRoute(
       path: Routes.EmailScreen,
