@@ -35,7 +35,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
   void _onNextTap(BuildContext context) {
     context.push(
-      Routes.EmailScreen,
+      Routes.EmailPath,
       extra: EmailScreenArgs(username: _username),
     );
   }

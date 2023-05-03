@@ -13,12 +13,12 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   void _onLoginTap(BuildContext context) async {
-    await context.push(Routes.LoginScreen);
+    await context.push(Routes.LoginPath);
     print("user came back");
   }
 
   void _onEmailTap(BuildContext context) {
-    context.push(Routes.UsernameScreen);
+    context.pushNamed(Routes.Username);
   }
 
   @override
