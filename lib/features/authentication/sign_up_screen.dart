@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/features/authentication/login_screen.dart';
+import 'package:tiktok_clone/features/authentication/username_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../generated/l10n.dart';
 import '../../utils.dart';
-import 'login_screen.dart';
-import 'username_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const String routeName = "/";
   const SignUpScreen({Key? key}) : super(key: key);
 
   void _onLoginTap(BuildContext context) async {
-    await Navigator.of(context).push(
+    /*await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ),
     );
+    print("user came back");*/
+    await Navigator.of(context).pushNamed(LoginScreen.routeName);
 
     print("user came back");
   }
 
   void _onEmailTap(context) {
-    Navigator.of(context).push(
+    /*Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 300),
         reverseTransitionDuration: Duration(milliseconds: 300),
@@ -50,7 +53,8 @@ class SignUpScreen extends StatelessWidget {
           return UsernameScreen();
         },
       ),
-    );
+    );*/
+    Navigator.of(context).pushNamed(UsernameScreen.routeName);
   }
 
   @override

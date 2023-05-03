@@ -8,6 +8,7 @@ import '../../constants/sizes.dart';
 import '../../utils.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String routeName = "/login";
   const LoginScreen({Key? key}) : super(key: key);
 
   void _onSignUpTap(BuildContext context) {
