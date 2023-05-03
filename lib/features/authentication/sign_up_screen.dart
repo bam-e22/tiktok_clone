@@ -25,7 +25,6 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return OrientationBuilder(
       builder: (context, orientation) {
-        print(orientation);
         return Scaffold(
           body: SafeArea(
             child: Padding(
