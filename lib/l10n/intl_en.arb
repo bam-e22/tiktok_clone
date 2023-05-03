@@ -9,7 +9,7 @@
       },
       "when": {
         "type": "DateTime",
-        "format": "MMMEd 🪴",
+        "format": "y MMMM d 🪴",
         "isCustomDateFormat": "true"
       }
     }
