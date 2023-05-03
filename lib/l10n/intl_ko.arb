@@ -2,5 +2,8 @@
   "signUpTitle": "{nameOfTheApp}에 가입하세요",
   "loginTitle": "{nameOfTheApp}에 로그인하세요",
   "signUpSubtitle": "Create a profile, follow other accounts, make your own {videoCount, plural, =0{no videos} =1{video} other{videos}}, and more.",
-  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}"
+  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}",
+  "likeCount": "{value}",
+  "commentCount": "{value}",
+  "commentTitle": "{value} {value2, plural, =0{노 댓글} =1{댓글} other{댓글s}}"
 }
