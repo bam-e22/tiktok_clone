@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/router.dart';
 
@@ -35,6 +36,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
   void _onNextTap(BuildContext context) {
     context.push(
       Routes.EmailScreen,
+      extra: EmailScreenArgs(username: _username),
     );
   }
 
