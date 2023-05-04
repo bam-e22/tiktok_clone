@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
@@ -91,6 +93,22 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       MaterialPageRoute(
         builder: (context) => VideoPreviewScreen(
           video: video,
+          isPicked: false,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onPickVideoPressed() async {
+    final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
+    if (video == null) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(
+          video: video,
+          isPicked: true,
         ),
       ),
     );
@@ -176,9 +194,27 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       ),
                       Positioned(
                         bottom: Sizes.size40,
-                        child: VideoRecordButton(
-                          startRecording: _startRecording,
-                          stopRecording: _stopRecording,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            VideoRecordButton(
+                              startRecording: _startRecording,
+                              stopRecording: _stopRecording,
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: IconButton(
+                                  onPressed: _onPickVideoPressed,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.image,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       )
                     ],
