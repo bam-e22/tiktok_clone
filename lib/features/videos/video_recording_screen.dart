@@ -18,7 +18,7 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _isLoading = true;
   bool _hasPermission = false;
   bool _isSelfieMode = false;
@@ -70,6 +70,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.initialize();
     await _cameraController.prepareForVideoRecording(); // only for iOS
     _flashMode = _cameraController.value.flashMode;
+
+    setState(() {});
   }
 
   Future<void> _startRecording() async {
@@ -103,6 +105,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
     if (video == null) return;
 
+    if (!mounted) return;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -118,12 +121,26 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void initState() {
     super.initState();
     initPermissions();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     _cameraController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_hasPermission) return;
+    if (!_cameraController.value.isInitialized) return;
+
+    if (state == AppLifecycleState.inactive) {
+      _cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      initCamera();
+    }
   }
 
   @override
