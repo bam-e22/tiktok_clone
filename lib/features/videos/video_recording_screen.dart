@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/flash_mode_icon_button.dart';
 
 import '../../constants/gaps.dart';
 
@@ -151,46 +152,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                       ),
                     ),
                   ),
-      ),
-    );
-  }
-}
-
-extension on FlashMode {
-  IconData getIcon() {
-    switch (this) {
-      case FlashMode.off:
-        return Icons.flash_off_rounded;
-      case FlashMode.auto:
-        return Icons.flash_auto_rounded;
-      case FlashMode.always:
-        return Icons.flash_on_rounded;
-      case FlashMode.torch:
-        return Icons.flashlight_on_rounded;
-    }
-  }
-}
-
-class FlashModeIconButton extends StatelessWidget {
-  const FlashModeIconButton({
-    Key? key,
-    required this.flashMode,
-    required this.onTap,
-    required this.enabled,
-  }) : super(key: key);
-
-  final FlashMode flashMode;
-  final Function(FlashMode) onTap;
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      color: enabled ? Colors.amber.shade200 : Colors.white,
-      onPressed: () => onTap(flashMode),
-      icon: Icon(
-        flashMode.getIcon(),
-        size: Sizes.size40,
       ),
     );
   }
