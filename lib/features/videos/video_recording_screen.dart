@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/flash_mode_icon_button.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_record_button.dart';
 
 import '../../constants/gaps.dart';
 
@@ -13,12 +14,12 @@ class VideoRecordingScreen extends StatefulWidget {
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
-class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+class _VideoRecordingScreenState extends State<VideoRecordingScreen>
+    with TickerProviderStateMixin {
   bool _isLoading = true;
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   late CameraController _cameraController;
-
   late FlashMode _flashMode;
 
   Future<void> initPermissions() async {
@@ -67,10 +68,24 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     _flashMode = _cameraController.value.flashMode;
   }
 
+  void _startRecording() {
+    print("start recording");
+  }
+
+  void _stopRecording() {
+    print("stop recording");
+  }
+
   @override
   void initState() {
     super.initState();
     initPermissions();
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
   }
 
   @override
@@ -137,6 +152,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                               enabled: _flashMode == FlashMode.torch,
                             ),
                           ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: Sizes.size40,
+                        child: VideoRecordButton(
+                          startRecording: _startRecording,
+                          stopRecording: _stopRecording,
                         ),
                       )
                     ],

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_sns_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -264,20 +264,20 @@ class _VideoPostState extends State<VideoPost>
                   child: Text('todd'),
                 ),
                 Gaps.v24,
-                VideoButton(
+                VideoSnsButton(
                   icon: FontAwesomeIcons.solidHeart,
                   text: S.of(context).likeCount(8787324),
                 ),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentTap(context),
-                  child: VideoButton(
+                  child: VideoSnsButton(
                     icon: FontAwesomeIcons.solidComment,
                     text: S.of(context).commentCount(432500000),
                   ),
                 ),
                 Gaps.v24,
-                const VideoButton(
+                const VideoSnsButton(
                   icon: FontAwesomeIcons.share,
                   text: 'Share',
                 ),

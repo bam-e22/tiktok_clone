@@ -4,8 +4,8 @@ import 'package:tiktok_clone/constants/gaps.dart';
 
 import '../../../constants/sizes.dart';
 
-class VideoButton extends StatelessWidget {
-  const VideoButton({
+class VideoSnsButton extends StatelessWidget {
+  const VideoSnsButton({
     Key? key,
     required this.icon,
     required this.text,
