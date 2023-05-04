@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
 import 'package:tiktok_clone/features/videos/widgets/flash_mode_icon_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_record_button.dart';
 
@@ -65,15 +66,34 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
 
     await _cameraController.initialize();
+    await _cameraController.prepareForVideoRecording(); // only for iOS
     _flashMode = _cameraController.value.flashMode;
   }
 
-  void _startRecording() {
+  Future<void> _startRecording() async {
     print("start recording");
+    if (_cameraController.value.isRecordingVideo) return;
+
+    await _cameraController.startVideoRecording();
   }
 
-  void _stopRecording() {
+  Future<void> _stopRecording() async {
+    if (!_cameraController.value.isRecordingVideo) return;
     print("stop recording");
+
+    final video = await _cameraController.stopVideoRecording();
+    print("video name: ${video.name}, path: ${video.path}");
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(
+          video: video,
+        ),
+      ),
+    );
   }
 
   @override
