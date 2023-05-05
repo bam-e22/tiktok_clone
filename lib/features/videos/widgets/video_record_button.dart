@@ -5,12 +5,14 @@ import '../../../constants/sizes.dart';
 class VideoRecordButton extends StatefulWidget {
   const VideoRecordButton({
     Key? key,
-    required this.startRecording,
-    required this.stopRecording,
+    required this.onTapDown,
+    required this.onTapUp,
+    required this.onLongPressMoveUpdate,
   }) : super(key: key);
 
-  final Function startRecording;
-  final Function stopRecording;
+  final Function onTapDown;
+  final Function onTapUp;
+  final Function(LongPressMoveUpdateDetails) onLongPressMoveUpdate;
 
   @override
   State<VideoRecordButton> createState() => _VideoRecordButtonState();
@@ -38,13 +40,13 @@ class _VideoRecordButtonState extends State<VideoRecordButton>
   ).animate(_buttonAnimationController);
 
   void _onTapDown() {
-    widget.startRecording();
+    widget.onTapDown();
     _buttonAnimationController.forward();
     _progressAnimationController.forward();
   }
 
   void _onTapUp() {
-    widget.stopRecording();
+    widget.onTapUp();
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
   }
@@ -54,7 +56,7 @@ class _VideoRecordButtonState extends State<VideoRecordButton>
     super.initState();
     _progressAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        widget.stopRecording();
+        widget.onTapUp();
       }
     });
   }
@@ -72,6 +74,7 @@ class _VideoRecordButtonState extends State<VideoRecordButton>
       onTapDown: (details) => _onTapDown(),
       onTapUp: (details) => _onTapUp(),
       onLongPressEnd: (details) => _onTapUp(),
+      onLongPressMoveUpdate: widget.onLongPressMoveUpdate,
       child: ScaleTransition(
         scale: _buttonAnimation,
         child: Stack(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +26,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _isSelfieMode = false;
   late CameraController _cameraController;
   late FlashMode _flashMode;
+  late double _maxZoomLevel;
+  late double _minZoomLevel;
+  late double _currentZoomLevel;
+  final double _zoomStep = 0.05;
 
   Future<void> initPermissions() async {
     final cameraPermission = await Permission.camera.request();
@@ -70,7 +76,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.initialize();
     await _cameraController.prepareForVideoRecording(); // only for iOS
     _flashMode = _cameraController.value.flashMode;
-
+    _maxZoomLevel = await _cameraController.getMaxZoomLevel();
+    _minZoomLevel = await _cameraController.getMinZoomLevel();
+    _currentZoomLevel = _minZoomLevel;
+    print("max= $_maxZoomLevel, min= $_minZoomLevel");
     setState(() {});
   }
 
@@ -115,6 +124,18 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       ),
     );
+  }
+
+  Future<void> _setZoomLevel(LongPressMoveUpdateDetails details) async {
+    if (details.offsetFromOrigin.direction < 0) {
+      // upward
+      _currentZoomLevel = min(_currentZoomLevel + _zoomStep, _maxZoomLevel);
+    } else if (details.offsetFromOrigin.direction > 0) {
+      // downward
+      _currentZoomLevel = max(_currentZoomLevel - _zoomStep, _minZoomLevel);
+    }
+    await _cameraController.setZoomLevel(_currentZoomLevel);
+    setState(() {});
   }
 
   @override
@@ -216,8 +237,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                           children: [
                             const Spacer(),
                             VideoRecordButton(
-                              startRecording: _startRecording,
-                              stopRecording: _stopRecording,
+                              onTapDown: _startRecording,
+                              onTapUp: _stopRecording,
+                              onLongPressMoveUpdate: _setZoomLevel,
                             ),
                             Expanded(
                               child: Container(
