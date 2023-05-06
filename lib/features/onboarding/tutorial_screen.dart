@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
-import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 
+import '../../common/widgets/main_navigation/main_navigation_screen.dart';
 import '../../constants/sizes.dart';
 import '../../utils.dart';
 
