@@ -3,8 +3,11 @@
 <plist version="1.0">
 <dict>
     <key>NSMicrophoneUsageDescription</key>
+    <string>mic permission needed</string>
     <key>NSCameraUsageDescription</key>
+    <string>camera permission needed</string>
     <key>NSPhotoLibraryUsageDescription</key>
+    <string>photo library permission needed</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

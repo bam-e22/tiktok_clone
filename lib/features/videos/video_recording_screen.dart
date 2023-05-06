@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,6 +33,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   late double _currentZoomLevel;
   final double _zoomStep = 0.05;
 
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
+
   Future<void> initPermissions() async {
     final cameraPermission = await Permission.camera.request();
     final micPermission = await Permission.microphone.request();
@@ -40,7 +44,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     final isMicPermissionGranted = micPermission.isGranted &&
         !(micPermission.isDenied || micPermission.isPermanentlyDenied);
 
-    if (isCameraPermissionGranted && isMicPermissionGranted) {
+    if (isCameraPermissionGranted && isMicPermissionGranted && !_noCamera) {
       _hasPermission = true;
       await initCamera();
     } else {
@@ -258,17 +262,51 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       )
                     ],
                   )
-                : Center(
-                    child: Text(
-                      _hasPermission
-                          ? "Permission denied"
-                          : "Camera error occurred",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: Sizes.size20,
+                : _noCamera
+                    ? Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          const Positioned(
+                            child: Center(
+                                child: Text(
+                              "iOS Debug mode (no camera)",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: Sizes.size20,
+                              ),
+                            )),
+                          ),
+                          Positioned(
+                            bottom: Sizes.size40,
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: _onPickVideoPressed,
+                                      icon: const FaIcon(
+                                        FontAwesomeIcons.image,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    : const Center(
+                        child: Text(
+                          "Camera error occurred",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: Sizes.size20,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
       ),
     );
   }
