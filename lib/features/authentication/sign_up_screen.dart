@@ -14,7 +14,7 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   void _onLoginTap(BuildContext context) async {
-    await context.pushNamed(Routes.LoginRoute);
+    await context.pushNamed(Routes.loginScreen);
     print("user came back");
   }
 

@@ -50,7 +50,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   void _onEnterAppTap() {
     context.goNamed(
-      Routes.MainRoute,
+      Routes.mainScreen,
       pathParameters: {"tab": "home"},
     );
   }

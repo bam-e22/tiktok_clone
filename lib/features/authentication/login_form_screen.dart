@@ -20,7 +20,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
   void _onSubmitTap(BuildContext context) {
     if (_formKey.currentState?.validate() == true) {
       _formKey.currentState?.save();
-      context.goNamed(Routes.InterestsRoute);
+      context.goNamed(Routes.interestsScreen);
     }
   }
 

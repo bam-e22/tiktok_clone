@@ -36,7 +36,7 @@ class _BirthdayScreenScreenState extends State<BirthdayScreen> {
 
   void _onNextTap(BuildContext context) {
     // 여기서는 pushReplacementNamed와 동일. 현재 /signup -> 변경 /interests
-    context.goNamed(Routes.InterestsRoute);
+    context.goNamed(Routes.interestsScreen);
   }
 
   @override
