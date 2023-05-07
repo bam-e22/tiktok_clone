@@ -67,7 +67,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           bottom: Sizes.size32,
         ),
         color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,

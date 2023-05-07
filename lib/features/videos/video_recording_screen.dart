@@ -151,13 +151,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    if (!_noCamera) {
+      _cameraController.dispose();
+    }
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_noCamera) return;
     if (!_hasPermission) return;
     if (!_cameraController.value.isInitialized) return;
 
@@ -259,7 +262,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                             )
                           ],
                         ),
-                      )
+                      ),
+                      const Positioned(
+                        top: Sizes.size40,
+                        left: Sizes.size20,
+                        child: CloseButton(
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   )
                 : _noCamera
@@ -295,7 +305,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                                 )
                               ],
                             ),
-                          )
+                          ),
+                          const Positioned(
+                            top: Sizes.size40,
+                            left: Sizes.size20,
+                            child: CloseButton(
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       )
                     : const Center(
