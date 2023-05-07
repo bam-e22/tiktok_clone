@@ -1,7 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+
+enum MainTabs { home, discover, camera, inbox, profile }
 
 class Routes {
   static const String SignUpRoute = "signup";
@@ -10,6 +13,7 @@ class Routes {
   static const String LoginScreen = "/login";
   static const String InterestsRoute = "interests";
   static const String InterestsScreen = "/interests";
+  static const String MainRoute = "main";
 }
 
 final router = GoRouter(
@@ -29,5 +33,14 @@ final router = GoRouter(
       path: Routes.InterestsScreen,
       builder: (context, state) => const InterestsScreen(),
     ),
+    GoRoute(
+      name: Routes.MainRoute,
+      path:
+          "/:tab(${MainTabs.home.name}|${MainTabs.discover.name}|${MainTabs.inbox.name}|${MainTabs.profile.name})",
+      builder: (context, state) {
+        final String tab = state.pathParameters["tab"] ?? MainTabs.home.name;
+        return MainNavigationScreen(tab: tab);
+      },
+    )
   ],
 );
