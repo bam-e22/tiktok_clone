@@ -6,6 +6,7 @@ import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
 import 'package:tiktok_clone/features/inbox/chats_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/features/videos/video_recording_screen.dart';
 
 enum MainTabs { home, discover, camera, inbox, profile }
 
@@ -23,10 +24,12 @@ class Routes {
   static const String chatsUrl = "/chats";
   static const String chatDetailScreen = "chatDetail";
   static const String chatDetailUrl = ":chatId"; // /chat/:chatId
+  static const String videoRecordScreen = "postVideo";
+  static const String videoRecordUrl = "/upload";
 }
 
 final router = GoRouter(
-  initialLocation: "/inbox", // for debug
+  initialLocation: "/home", // for debug
   routes: [
     GoRoute(
       name: Routes.signUpScreen,
@@ -73,6 +76,11 @@ final router = GoRouter(
           },
         ),
       ],
+    ),
+    GoRoute(
+      name: Routes.videoRecordScreen,
+      path: Routes.videoRecordUrl,
+      builder: (context, state) => const VideoRecordingScreen(),
     ),
   ],
 );

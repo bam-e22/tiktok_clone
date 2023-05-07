@@ -49,7 +49,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           title: Text(
             'todd (${widget.chatId})',
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -58,14 +58,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              const FaIcon(
+            children: const [
+              FaIcon(
                 FontAwesomeIcons.flag,
                 color: Colors.black,
                 size: Sizes.size20,
               ),
               Gaps.h32,
-              const FaIcon(
+              FaIcon(
                 FontAwesomeIcons.ellipsis,
                 color: Colors.black,
                 size: Sizes.size20,
@@ -146,8 +146,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             suffixIcon: Row(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const FaIcon(FontAwesomeIcons.faceSmile),
+                              children: const [
+                                FaIcon(FontAwesomeIcons.faceSmile),
                               ],
                             )),
                       ),
