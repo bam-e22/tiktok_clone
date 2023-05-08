@@ -34,6 +34,15 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animatedDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
   bool _isTagTextExpanded = false;
+  late bool _isMuted = context.read<PlaybackConfigViewModel>().muted;
+
+  Future<void> _initVolume() async {
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(_isMuted ? 0.0 : 1.0);
+    }
+  }
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -47,9 +56,8 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    if (kIsWeb) {
-      await _videoPlayerController.setVolume(0);
-    }
+    _initVolume();
+
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -82,6 +90,12 @@ class _VideoPostState extends State<VideoPost>
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+
+  void _toggleMuted() {
+    _isMuted = !_isMuted;
+    _videoPlayerController.setVolume(_isMuted ? 0.0 : 1.0);
+    setState(() {});
   }
 
   void _toggleTagExpand() {
@@ -121,29 +135,13 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animatedDuration,
     );
-
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
     _animationController.dispose();
-    context
-        .read<PlaybackConfigViewModel>()
-        .removeListener(_onPlaybackConfigChanged);
     super.dispose();
-  }
-
-  void _onPlaybackConfigChanged() {
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-    if (muted) {
-      _videoPlayerController.setVolume(0);
-    } else {
-      _videoPlayerController.setVolume(1);
-    }
   }
 
   @override
@@ -275,16 +273,12 @@ class _VideoPostState extends State<VideoPost>
             left: 20,
             child: IconButton(
               icon: FaIcon(
-                context.watch<PlaybackConfigViewModel>().muted
+                _isMuted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {
-                context
-                    .read<PlaybackConfigViewModel>()
-                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
-              },
+              onPressed: _toggleMuted,
             ),
           ),
           Positioned(

@@ -53,18 +53,20 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      displacement: 50,
-      edgeOffset: 20,
-      color: Theme.of(context).primaryColor,
-      onRefresh: _onRefresh,
-      child: PageView.builder(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        itemCount: _itemCount,
-        onPageChanged: _onPageChanged,
-        itemBuilder: (context, index) =>
-            VideoPost(onVideoFinished: _onVideoFinished, index: index),
+    return SafeArea(
+      child: RefreshIndicator(
+        displacement: 50,
+        edgeOffset: 20,
+        color: Theme.of(context).primaryColor,
+        onRefresh: _onRefresh,
+        child: PageView.builder(
+          controller: _pageController,
+          scrollDirection: Axis.vertical,
+          itemCount: _itemCount,
+          onPageChanged: _onPageChanged,
+          itemBuilder: (context, index) =>
+              VideoPost(onVideoFinished: _onVideoFinished, index: index),
+        ),
       ),
     );
   }
