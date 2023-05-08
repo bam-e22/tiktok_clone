@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/common/widgets/theme_mode_config.dart';
 import 'package:tiktok_clone/common/widgets/video_config.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -36,6 +37,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
+          ValueListenableBuilder(
+            valueListenable: themeModeConfig,
+            builder: (context, value, child) {
+              return ListTile(
+                title: const Text('Theme mode'),
+                trailing: DropdownButton<ThemeMode>(
+                  value: value,
+                  items: ThemeMode.values
+                      .map<DropdownMenuItem<ThemeMode>>((themeMode) {
+                    return DropdownMenuItem(
+                      child: Text(themeMode.name),
+                      value: themeMode,
+                    );
+                  }).toList(),
+                  onChanged: (ThemeMode? value) {
+                    themeModeConfig.value = value!;
+                  },
+                ),
+              );
+            },
+          ),
           ValueListenableBuilder(
             valueListenable: videoConfig,
             builder: (context, value, child) {
