@@ -196,7 +196,7 @@ class _VideoPostState extends State<VideoPost>
                 Gaps.v10,
                 Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 280,
                       child: Text(
                         '#flutter #dart #koltin #android #ios #mobile #dev',
@@ -227,7 +227,7 @@ class _VideoPostState extends State<VideoPost>
                 ),
                 Visibility(
                   visible: _isTagTextExpanded,
-                  child: Container(
+                  child: SizedBox(
                     width: 280,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
