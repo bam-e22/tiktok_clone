@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../constants/sizes.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoRecordButton extends StatefulWidget {
   const VideoRecordButton({

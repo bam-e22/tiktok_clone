@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/theme_mode_config.dart';
-import 'package:tiktok_clone/common/widgets/video_config.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -45,8 +45,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               items: ThemeMode.values
                   .map<DropdownMenuItem<ThemeMode>>((themeMode) {
                 return DropdownMenuItem(
-                  child: Text(themeMode.name),
                   value: themeMode,
+                  child: Text(themeMode.name),
                 );
               }).toList(),
               onChanged: (ThemeMode? value) {
@@ -57,10 +57,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           SwitchListTile.adaptive(
-            value: context.watch<VideoConfig>().isMuted,
-            onChanged: (value) => context.read<VideoConfig>().toggleIsMuted(),
+            value: context.watch<PlaybackConfigViewModel>().muted,
+            onChanged: (value) async {
+              await context.read<PlaybackConfigViewModel>().setMuted(value);
+            },
             title: const Text('Auto Mute'),
             subtitle: const Text('Videos will be muted by default'),
+          ),
+          SwitchListTile.adaptive(
+            value: context.watch<PlaybackConfigViewModel>().autoplay,
+            onChanged: (value) async {
+              await context.read<PlaybackConfigViewModel>().setAutoplay(value);
+            },
+            title: const Text('Autoplay'),
+            subtitle: const Text('Video will start playing automatically.'),
           ),
           SwitchListTile.adaptive(
             value: _notifications,

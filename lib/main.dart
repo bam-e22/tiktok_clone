@@ -2,17 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tiktok_clone/features/videos/repos/playback_config_repo.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/router.dart';
 
 import 'common/widgets/theme_mode_config.dart';
-import 'common/widgets/video_config.dart';
 import 'constants/sizes.dart';
 import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(const TikTokApp());
+
+  final preferences = await SharedPreferences.getInstance();
+  final playbackConfigRepository = PlaybackConfigRepository(preferences);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) =>
+              PlaybackConfigViewModel(playbackConfigRepository),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeModeConfig(),
+        )
+      ],
+      child: const TikTokApp(),
+    ),
+  );
 }
 
 class TikTokApp extends StatelessWidget {
@@ -21,103 +40,91 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => VideoConfig(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ThemeModeConfig(),
-        )
+    return MaterialApp.router(
+      routerConfig: router,
+      title: 'Flutter Demo',
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
-      builder: (context, child) {
-        return MaterialApp.router(
-          routerConfig: router,
-          title: 'Flutter Demo',
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          themeMode: context.watch<ThemeModeConfig>().themeMode,
-          theme: ThemeData(
-            useMaterial3: true,
-            brightness: Brightness.light,
-            textTheme: Typography.blackCupertino,
-            primaryColor: const Color(0xFFE9435A),
-            scaffoldBackgroundColor: Colors.white,
-            bottomAppBarTheme: BottomAppBarTheme(
-              color: Colors.grey.shade50,
-            ),
-            splashColor: Colors.transparent,
-            //splashFactory: NoSplash.splashFactory,
-            textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: Color(0xFFE9435A),
-            ),
-            tabBarTheme: TabBarTheme(
-              indicatorColor: Colors.black,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey.shade500,
-              indicator: const UnderlineTabIndicator(
-                borderSide: BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            appBarTheme: const AppBarTheme(
-              surfaceTintColor: Colors.white,
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white,
-              elevation: 0,
-              titleTextStyle: TextStyle(
-                color: Colors.black,
-                fontSize: Sizes.size16 + Sizes.size2,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            listTileTheme: const ListTileThemeData(
-              iconColor: Colors.black,
+      supportedLocales: S.delegate.supportedLocales,
+      themeMode: context.watch<ThemeModeConfig>().themeMode,
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        textTheme: Typography.blackCupertino,
+        primaryColor: const Color(0xFFE9435A),
+        scaffoldBackgroundColor: Colors.white,
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade50,
+        ),
+        splashColor: Colors.transparent,
+        //splashFactory: NoSplash.splashFactory,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFE9435A),
+        ),
+        tabBarTheme: TabBarTheme(
+          indicatorColor: Colors.black,
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(
+              color: Colors.black,
             ),
           ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            brightness: Brightness.dark,
-            textTheme: Typography.whiteCupertino,
-            primaryColor: const Color(0xFFE9435A),
-            scaffoldBackgroundColor: Colors.black,
-            textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: Color(0xFFE9435A),
-            ),
-            tabBarTheme: TabBarTheme(
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey.shade700,
-              indicatorColor: Colors.white,
-              indicator: const UnderlineTabIndicator(
-                borderSide: BorderSide(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            appBarTheme: AppBarTheme(
-              actionsIconTheme: IconThemeData(color: Colors.grey.shade100),
-              surfaceTintColor: Colors.grey.shade900,
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.grey.shade900,
-              elevation: 0,
-              titleTextStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: Sizes.size16 + Sizes.size2,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            bottomAppBarTheme: BottomAppBarTheme(
-              color: Colors.grey.shade900,
+        ),
+        appBarTheme: const AppBarTheme(
+          surfaceTintColor: Colors.white,
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        listTileTheme: const ListTileThemeData(
+          iconColor: Colors.black,
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        textTheme: Typography.whiteCupertino,
+        primaryColor: const Color(0xFFE9435A),
+        scaffoldBackgroundColor: Colors.black,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFE9435A),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
+          indicatorColor: Colors.white,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(
+              color: Colors.white,
             ),
           ),
-        );
-      },
+        ),
+        appBarTheme: AppBarTheme(
+          actionsIconTheme: IconThemeData(color: Colors.grey.shade100),
+          surfaceTintColor: Colors.grey.shade900,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.grey.shade900,
+          elevation: 0,
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
+        ),
+      ),
     );
   }
 }
