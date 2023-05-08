@@ -1,3 +1,10 @@
 import 'package:flutter/material.dart';
 
-final themeModeConfig = ValueNotifier(ThemeMode.system);
+class ThemeModeConfig extends ChangeNotifier {
+  ThemeMode themeMode = ThemeMode.system;
+
+  void setThemeMode(ThemeMode mode) {
+    themeMode = mode;
+    notifyListeners();
+  }
+}

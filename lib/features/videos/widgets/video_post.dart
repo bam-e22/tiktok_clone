@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok_clone/common/widgets/video_config.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
@@ -9,6 +9,7 @@ import 'package:tiktok_clone/features/videos/widgets/video_sns_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../common/widgets/video_config.dart';
 import '../../../generated/l10n.dart';
 
 class VideoPost extends StatefulWidget {
@@ -34,7 +35,6 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animatedDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
   bool _isTagTextExpanded = false;
-  bool _autoMute = videoConfig.value;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -108,12 +108,6 @@ class _VideoPostState extends State<VideoPost>
     _onTogglePause();
   }
 
-  void _videoConfigListener() {
-    setState(() {
-      _autoMute = videoConfig.value;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -125,15 +119,12 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animatedDuration,
     );
-
-    videoConfig.addListener(_videoConfigListener);
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
     _animationController.dispose();
-    videoConfig.removeListener(_videoConfigListener);
     super.dispose();
   }
 
@@ -266,13 +257,13 @@ class _VideoPostState extends State<VideoPost>
             left: 20,
             child: IconButton(
               icon: FaIcon(
-                _autoMute
+                context.watch<VideoConfig>().isMuted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
               onPressed: () {
-                videoConfig.value = !videoConfig.value;
+                context.read<VideoConfig>().toggleIsMuted();
               },
             ),
           ),

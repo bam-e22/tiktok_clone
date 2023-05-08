@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/router.dart';
 
 import 'common/widgets/theme_mode_config.dart';
+import 'common/widgets/video_config.dart';
 import 'constants/sizes.dart';
 import 'generated/l10n.dart';
 
@@ -19,9 +21,16 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: themeModeConfig,
-      builder: (BuildContext context, ThemeMode value, Widget? child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => VideoConfig(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeModeConfig(),
+        )
+      ],
+      builder: (context, child) {
         return MaterialApp.router(
           routerConfig: router,
           title: 'Flutter Demo',
@@ -32,7 +41,7 @@ class TikTokApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          themeMode: value,
+          themeMode: context.watch<ThemeModeConfig>().themeMode,
           theme: ThemeData(
             useMaterial3: true,
             brightness: Brightness.light,
