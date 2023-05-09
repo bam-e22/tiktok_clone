@@ -28,7 +28,7 @@ class VideoPost extends ConsumerStatefulWidget {
 class _VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/IMG_6292.MOV");
+      VideoPlayerController.asset("assets/videos/39764.MOV");
 
   bool _isPaused = false;
   final Duration _animatedDuration = const Duration(milliseconds: 200);
