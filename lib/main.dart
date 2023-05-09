@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone/features/videos/repos/playback_config_repo.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/router.dart';
 
-import 'common/widgets/theme_mode_config.dart';
+import 'common/widgets/main_navigation/view_models/theme_mode_vm.dart';
 import 'constants/sizes.dart';
 import 'generated/l10n.dart';
 
@@ -19,27 +19,25 @@ void main() async {
   final playbackConfigRepository = PlaybackConfigRepository(preferences);
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) =>
-              PlaybackConfigViewModel(playbackConfigRepository),
+    ProviderScope(
+      overrides: [
+        playbackConfigProvider.overrideWith(
+          () => PlaybackConfigViewModel(
+            (playbackConfigRepository),
+          ),
         ),
-        ChangeNotifierProvider(
-          create: (context) => ThemeModeConfig(),
-        )
       ],
       child: const TikTokApp(),
     ),
   );
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: router,
       title: 'Flutter Demo',
@@ -50,7 +48,7 @@ class TikTokApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      themeMode: context.watch<ThemeModeConfig>().themeMode,
+      themeMode: ref.watch(themeConfigProvider).themeMode,
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
@@ -11,7 +11,7 @@ import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   const VideoPost({
     Key? key,
     required this.onVideoFinished,
@@ -22,10 +22,10 @@ class VideoPost extends StatefulWidget {
   final int index;
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  ConsumerState<VideoPost> createState() => _VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class _VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   final VideoPlayerController _videoPlayerController =
       VideoPlayerController.asset("assets/videos/IMG_6292.MOV");
@@ -34,7 +34,7 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animatedDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
   bool _isTagTextExpanded = false;
-  late bool _isMuted = context.read<PlaybackConfigViewModel>().muted;
+  late bool _isMuted = ref.read(playbackConfigProvider).muted;
 
   Future<void> _initVolume() async {
     if (kIsWeb) {
@@ -67,8 +67,7 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (autoplay) {
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     }
