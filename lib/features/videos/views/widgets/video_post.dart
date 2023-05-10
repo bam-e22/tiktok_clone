@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_sns_button.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -28,7 +28,7 @@ class VideoPost extends ConsumerStatefulWidget {
 class _VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/39764.MOV");
+      VideoPlayerController.asset("assets/videos/39764.mp4");
 
   bool _isPaused = false;
   final Duration _animatedDuration = const Duration(milliseconds: 200);

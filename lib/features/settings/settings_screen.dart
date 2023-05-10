@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiktok_clone/common/widgets/main_navigation/view_models/theme_mode_vm.dart';
-import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/view_models/theme_mode_view_model.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_view_model.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
