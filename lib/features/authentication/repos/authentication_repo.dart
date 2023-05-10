@@ -6,6 +6,11 @@ class AuthenticationRepository {
 
   User? get _user => _firebaseAuth.currentUser;
   bool get isLoggedIn => _user != null;
+
+  Future<void> signUp({required String email, required String password}) async {
+    await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+  }
 }
 
 final authRepo = Provider((ref) => AuthenticationRepository());

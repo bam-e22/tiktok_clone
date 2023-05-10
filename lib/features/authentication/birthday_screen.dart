@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_clone/router.dart';
 
-class BirthdayScreen extends StatefulWidget {
+class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({Key? key}) : super(key: key);
 
   @override
-  State<BirthdayScreen> createState() => _BirthdayScreenScreenState();
+  ConsumerState<BirthdayScreen> createState() => _BirthdayScreenScreenState();
 }
 
-class _BirthdayScreenScreenState extends State<BirthdayScreen> {
+class _BirthdayScreenScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
   DateTime initialDate = DateTime.now();
 
@@ -34,9 +34,11 @@ class _BirthdayScreenScreenState extends State<BirthdayScreen> {
     super.dispose();
   }
 
-  void _onNextTap(BuildContext context) {
+  void _onNextTap(BuildContext context) async {
     // 여기서는 pushReplacementNamed와 동일. 현재 /signup -> 변경 /interests
-    context.goNamed(Routes.interestsScreen);
+    // context.goNamed(Routes.interestsScreen);
+    await ref.read(signUpProvider.notifier).signUp();
+    // TODO: go to next screen, catch errors
   }
 
   @override
@@ -91,7 +93,7 @@ class _BirthdayScreenScreenState extends State<BirthdayScreen> {
             ),
             Gaps.v16,
             FormButton(
-              enabled: true,
+              enabled: !ref.watch(signUpProvider).isLoading,
               onClick: (context) => _onNextTap(context),
             )
           ],
