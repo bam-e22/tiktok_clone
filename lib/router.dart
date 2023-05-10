@@ -33,8 +33,8 @@ class Routes {
 
 final routerProvider = Provider(
   (ref) {
-    //ref.watch(authState);
-    print("rebuild");
+    //ref.watch(authState); // Rebuild when authState changes
+    print("rebuild router");
     return GoRouter(
       initialLocation: "/home", // for debug
       redirect: (context, state) {

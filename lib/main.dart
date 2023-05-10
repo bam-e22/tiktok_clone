@@ -46,7 +46,7 @@ class TikTokApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      routerConfig: ref.read(routerProvider),
+      routerConfig: ref.watch(routerProvider),
       title: 'Flutter Demo',
       localizationsDelegates: const [
         S.delegate,
