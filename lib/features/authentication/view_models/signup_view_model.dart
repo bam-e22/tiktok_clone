@@ -6,11 +6,11 @@ import 'package:tiktok_clone/features/authentication/repos/authentication_repo.d
 class SignupViewModel extends AsyncNotifier<void> {
   late final AuthenticationRepository _authRepo;
 
-  Future<void> signUp() async {
+  Future<void> emailSignUp() async {
     state = const AsyncValue.loading();
     final form = ref.read(signupForm);
     state = await AsyncValue.guard(
-      () async => await _authRepo.signUp(
+      () async => await _authRepo.emailSignUp(
         email: form["email"],
         password: form["password"],
       ),

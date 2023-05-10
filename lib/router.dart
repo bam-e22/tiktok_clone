@@ -33,11 +33,14 @@ class Routes {
 
 final routerProvider = Provider(
   (ref) {
+    //ref.watch(authState);
+    print("rebuild");
     return GoRouter(
       initialLocation: "/home", // for debug
       redirect: (context, state) {
         final isLoggedIn = ref.read(authRepo).isLoggedIn;
         print("state.matchedLocation= ${state.matchedLocation}");
+        print("isLoggedIn= ${isLoggedIn}");
         if (!isLoggedIn) {
           if (state.matchedLocation != Routes.signUpUrl &&
               state.matchedLocation != Routes.loginUrl) {
