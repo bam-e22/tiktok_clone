@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_clone/features/authentication/view_models/social_auth_view_model.dart';
+import 'package:tiktok_clone/features/authentication/views/login_form_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/widgets/auth_button.dart';
 
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
-import '../../utils.dart';
+import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
+import '../../../utils.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   void _onSignUpTap(BuildContext context) {
@@ -24,7 +26,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -59,9 +61,12 @@ class LoginScreen extends StatelessWidget {
                 onClick: (context) => _onEmailLoginTap(context),
               ),
               Gaps.v16,
-              const AuthButton(
-                  icon: FaIcon(FontAwesomeIcons.apple),
-                  text: "Continue with Apple")
+              AuthButton(
+                icon: const FaIcon(FontAwesomeIcons.github),
+                text: "Continue with Github",
+                onClick: (context) =>
+                    ref.read(socialAuthProvider.notifier).githubSignIn(context),
+              )
             ],
           ),
         ),
