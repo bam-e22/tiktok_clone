@@ -38,7 +38,7 @@ class _BirthdayScreenScreenState extends ConsumerState<BirthdayScreen> {
     // 여기서는 pushReplacementNamed와 동일. 현재 /signup -> 변경 /interests
     // context.goNamed(Routes.interestsScreen);
 
-    await ref.read(signUpProvider.notifier).emailSignUp();
+    await ref.read(signUpProvider.notifier).emailSignUp(context);
   }
 
   @override

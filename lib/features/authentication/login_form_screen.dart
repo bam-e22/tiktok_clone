@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/authentication/view_models/login_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_clone/router.dart';
 
 import '../../constants/sizes.dart';
 
-class LoginFormScreen extends StatefulWidget {
+class LoginFormScreen extends ConsumerStatefulWidget {
   const LoginFormScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginFormScreen> createState() => _LoginFormScreenState();
+  ConsumerState<LoginFormScreen> createState() => _LoginFormScreenState();
 }
 
-class _LoginFormScreenState extends State<LoginFormScreen> {
+class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<String, String> formData = {};
 
-  void _onSubmitTap(BuildContext context) {
+  Future<void> _onSubmitTap(BuildContext context) async {
     if (_formKey.currentState?.validate() == true) {
       _formKey.currentState?.save();
-      context.goNamed(Routes.interestsScreen);
+      //context.goNamed(Routes.interestsScreen);
+      await ref.read(loginProvider.notifier).login(
+            email: formData["email"]!,
+            password: formData["password"]!,
+            context: context,
+          );
     }
   }
 
@@ -87,9 +92,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
               ),
               Gaps.v28,
               FormButton(
-                enabled: true,
+                enabled: !ref.watch(loginProvider).isLoading,
                 text: 'Log in',
-                onClick: _onSubmitTap,
+                onClick: (context) async => await _onSubmitTap(context),
               )
             ],
           ),

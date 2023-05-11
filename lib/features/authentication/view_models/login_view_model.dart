@@ -1,40 +1,42 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/router.dart';
 import 'package:tiktok_clone/utils.dart';
 
-class SignupViewModel extends AsyncNotifier<void> {
-  late final AuthenticationRepository _authRepo;
+class LoginViewModel extends AsyncNotifier<void> {
+  late final AuthenticationRepository _repository;
 
   @override
   FutureOr<void> build() {
-    _authRepo = ref.read(authRepo);
+    _repository = ref.read(authRepo);
   }
 
-  Future<void> emailSignUp(BuildContext context) async {
+  Future<void> login({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
     state = const AsyncValue.loading();
-    final form = ref.read(signupForm);
     state = await AsyncValue.guard(
-      () async => await _authRepo.emailSignUp(
-        email: form["email"],
-        password: form["password"],
+      () async => await _repository.emailSignIn(
+        email: email,
+        password: password,
       ),
     );
     if (!context.mounted) return;
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error as FirebaseException?);
     } else {
-      context.goNamed(Routes.interestsScreen);
+      context.goNamed(Routes.mainScreen);
     }
   }
 }
 
-final signupForm = StateProvider((ref) => {});
-final signUpProvider = AsyncNotifierProvider<SignupViewModel, void>(
-  () => SignupViewModel(),
+final loginProvider = AsyncNotifierProvider<LoginViewModel, void>(
+  () => LoginViewModel(),
 );

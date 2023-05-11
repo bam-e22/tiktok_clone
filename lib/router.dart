@@ -36,7 +36,7 @@ final routerProvider = Provider(
     //ref.watch(authState); // Rebuild when authState changes
     print("rebuild router");
     return GoRouter(
-      initialLocation: "/home", // for debug
+      initialLocation: "/${MainTabs.home.name}",
       redirect: (context, state) {
         final isLoggedIn = ref.read(authRepo).isLoggedIn;
         print("state.matchedLocation= ${state.matchedLocation}");

@@ -10,15 +10,29 @@ class AuthenticationRepository {
 
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
-  Future<void> emailSignUp(
-      {required String email, required String password}) async {
+  Future<void> emailSignUp({
+    required String email,
+    required String password,
+  }) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+      email: email,
+      password: password,
+    );
   }
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     print("signOut, isLoggedIn? $isLoggedIn");
+  }
+
+  Future<void> emailSignIn({
+    required String email,
+    required String password,
+  }) async {
+    await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 }
 
