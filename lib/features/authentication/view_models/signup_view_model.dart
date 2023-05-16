@@ -31,7 +31,7 @@ class SignupViewModel extends AsyncNotifier<void> {
 
         // create profile
         await users.createProfile(userCredential);
-        print("userCredential.user= ${userCredential.user}");
+        log("userCredential.user= ${userCredential.user}");
 
         return;
       },

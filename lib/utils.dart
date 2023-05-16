@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'generated/l10n.dart';
@@ -16,4 +17,10 @@ void showFirebaseErrorSnack(
     content: Text(exception?.message ?? "Something went wrong"),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+void log(Object? object) {
+  if (kDebugMode) {
+    print(object);
+  }
 }
