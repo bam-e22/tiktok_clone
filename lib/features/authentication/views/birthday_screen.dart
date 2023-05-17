@@ -37,6 +37,11 @@ class _BirthdayScreenScreenState extends ConsumerState<BirthdayScreen> {
   void _onNextTap(BuildContext context) async {
     // 여기서는 pushReplacementNamed와 동일. 현재 /signup -> 변경 /interests
     // context.goNamed(Routes.interestsScreen);
+    final state = ref.read(signupForm);
+    ref.read(signupForm.notifier).state = {
+      ...state,
+      "birthday": _birthdayController.value.text
+    };
 
     await ref.read(signUpProvider.notifier).emailSignUp(context);
   }
