@@ -38,6 +38,7 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       state.value!.copyWith(hasAvatar: true),
     );
     await _usersRepository.updateUser(state.value!.uid, {"hasAvatar": true});
+    print("onAvatarUploaded");
   }
 }
 
