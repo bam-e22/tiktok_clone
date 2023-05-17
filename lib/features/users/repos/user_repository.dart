@@ -6,7 +6,12 @@ class UserRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> createProfile(UserProfileModel profile) async {
-    await _db.collection("/users").doc(profile.uid).set(profile.toJson());
+    await _db.collection("users").doc(profile.uid).set(profile.toJson());
+  }
+
+  Future<Map<String, dynamic>?> findProfile(String uid) async {
+    final doc = await _db.collection("users").doc(uid).get();
+    return doc.data();
   }
 }
 

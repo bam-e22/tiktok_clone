@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AuthenticationRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  User? get _user => _firebaseAuth.currentUser;
+  User? get user => _firebaseAuth.currentUser;
 
-  bool get isLoggedIn => _user != null;
+  bool get isLoggedIn => user != null;
 
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
