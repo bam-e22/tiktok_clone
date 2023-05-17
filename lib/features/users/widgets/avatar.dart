@@ -9,9 +9,13 @@ class Avatar extends ConsumerWidget {
   const Avatar({
     super.key,
     required this.name,
+    required this.hasAvatar,
+    required this.uid,
   });
 
   final String name;
+  final bool hasAvatar;
+  final String uid;
 
   Future<void> _onAvatarTap(WidgetRef ref) async {
     final XFile? xFile = await ImagePicker().pickImage(
@@ -44,9 +48,11 @@ class Avatar extends ConsumerWidget {
             )
           : CircleAvatar(
               radius: 50,
-              foregroundImage: const NetworkImage(
-                'https://avatars.githubusercontent.com/u/23008504?v=4',
-              ),
+              foregroundImage: hasAvatar
+                  ? NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/tiktok-bam-e22.appspot.com/o/avatars%2F$uid?alt=media&time=${DateTime.now().toString()}',
+                    )
+                  : null,
               child: Text(name),
             ),
     );
