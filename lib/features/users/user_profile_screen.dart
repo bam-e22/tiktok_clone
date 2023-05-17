@@ -5,6 +5,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
+import 'package:tiktok_clone/features/users/widgets/avatar.dart';
 import 'package:tiktok_clone/features/users/widgets/persistent_tabbar.dart';
 import 'package:tiktok_clone/features/users/widgets/two_line_texts.dart';
 
@@ -88,13 +89,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                           child: Column(
                             children: [
                               Gaps.v20,
-                              CircleAvatar(
-                                radius: 50,
-                                foregroundImage: const NetworkImage(
-                                  'https://avatars.githubusercontent.com/u/23008504?v=4',
-                                ),
-                                child: Text(data.name),
-                              ),
+                              Avatar(name: data.name),
                               Gaps.v20,
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
