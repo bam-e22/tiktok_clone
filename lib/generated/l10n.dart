@@ -138,6 +138,86 @@ class S {
       args: [valueString, value2],
     );
   }
+
+  /// `Edit profile`
+  String get profileEditTitle {
+    return Intl.message(
+      'Edit profile',
+      name: 'profileEditTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User info`
+  String get userInfo {
+    return Intl.message(
+      'User info',
+      name: 'userInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get nameHeader {
+    return Intl.message(
+      'Name',
+      name: 'nameHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `TikTok ID`
+  String get uidHeader {
+    return Intl.message(
+      'TikTok ID',
+      name: 'uidHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `bio`
+  String get bioHeader {
+    return Intl.message(
+      'bio',
+      name: 'bioHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `link`
+  String get linkHeader {
+    return Intl.message(
+      'link',
+      name: 'linkHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `change avatar`
+  String get changeAvatarHeader {
+    return Intl.message(
+      'change avatar',
+      name: 'changeAvatarHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete`
+  String get complete {
+    return Intl.message(
+      'complete',
+      name: 'complete',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

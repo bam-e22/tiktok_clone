@@ -55,5 +55,13 @@
         "format": "compact"
       }
     }
-  }
+  },
+  "profileEditTitle": "Edit profile",
+  "userInfo": "User info",
+  "nameHeader": "Name",
+  "uidHeader": "TikTok ID",
+  "bioHeader": "bio",
+  "linkHeader": "link",
+  "changeAvatarHeader": "change avatar",
+  "complete": "complete"
 }

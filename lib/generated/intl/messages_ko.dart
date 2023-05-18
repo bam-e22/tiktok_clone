@@ -39,12 +39,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "bioHeader": MessageLookupByLibrary.simpleMessage("자기소개"),
+        "changeAvatarHeader": MessageLookupByLibrary.simpleMessage("사진 변경"),
         "commentCount": m0,
         "commentTitle": m1,
+        "complete": MessageLookupByLibrary.simpleMessage("완료"),
         "likeCount": m2,
+        "linkHeader": MessageLookupByLibrary.simpleMessage("링크"),
         "logIn": m3,
         "loginTitle": m4,
+        "nameHeader": MessageLookupByLibrary.simpleMessage("이름"),
+        "profileEditTitle": MessageLookupByLibrary.simpleMessage("프로필 편집"),
         "signUpSubtitle": m5,
-        "signUpTitle": m6
+        "signUpTitle": m6,
+        "uidHeader": MessageLookupByLibrary.simpleMessage("TikTok ID"),
+        "userInfo": MessageLookupByLibrary.simpleMessage("회원 정보")
       };
 }

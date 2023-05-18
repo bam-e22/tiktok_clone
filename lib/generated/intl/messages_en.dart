@@ -39,12 +39,22 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "bioHeader": MessageLookupByLibrary.simpleMessage("bio"),
+        "changeAvatarHeader":
+            MessageLookupByLibrary.simpleMessage("change avatar"),
         "commentCount": m0,
         "commentTitle": m1,
+        "complete": MessageLookupByLibrary.simpleMessage("complete"),
         "likeCount": m2,
+        "linkHeader": MessageLookupByLibrary.simpleMessage("link"),
         "logIn": m3,
         "loginTitle": m4,
+        "nameHeader": MessageLookupByLibrary.simpleMessage("Name"),
+        "profileEditTitle":
+            MessageLookupByLibrary.simpleMessage("Edit profile"),
         "signUpSubtitle": m5,
-        "signUpTitle": m6
+        "signUpTitle": m6,
+        "uidHeader": MessageLookupByLibrary.simpleMessage("TikTok ID"),
+        "userInfo": MessageLookupByLibrary.simpleMessage("User info")
       };
 }

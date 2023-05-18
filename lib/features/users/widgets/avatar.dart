@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/users/view_models/avatar_view_model.dart';
 
 class Avatar extends ConsumerStatefulWidget {
@@ -12,11 +13,13 @@ class Avatar extends ConsumerStatefulWidget {
     required this.name,
     required this.hasAvatar,
     required this.uid,
+    required this.isEditMode,
   });
 
   final String name;
   final bool hasAvatar;
   final String uid;
+  final bool isEditMode;
   late final String avatarUrl =
       "https://firebasestorage.googleapis.com/v0/b/tiktok-bam-e22.appspot.com/o/avatars%2F$uid?alt=media";
 
@@ -61,11 +64,29 @@ class _AvatarState extends ConsumerState<Avatar> {
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.cover,
-                      )),
+                        colorFilter: const ColorFilter.mode(
+                          Colors.black26,
+                          BlendMode.overlay,
+                        )),
+                  ),
+                  child: widget.isEditMode
+                      ? Container(
+                          alignment: Alignment.center,
+                          width: 100,
+                          height: 100,
+                          decoration:
+                              const BoxDecoration(shape: BoxShape.circle),
+                          child: const Icon(
+                            Icons.camera_alt_outlined,
+                            size: Sizes.size32,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null,
                 );
               },
             )

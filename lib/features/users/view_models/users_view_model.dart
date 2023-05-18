@@ -40,6 +40,11 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     await _usersRepository.updateUser(state.value!.uid, {"hasAvatar": true});
     print("onAvatarUploaded");
   }
+
+  Future<void> updateUserProfile(Map<String, dynamic> data) async {
+    state = AsyncValue.data(state.value!.updateWith(data));
+    await _usersRepository.updateUser(state.value!.uid, data);
+  }
 }
 
 final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(

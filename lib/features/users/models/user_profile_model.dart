@@ -58,4 +58,15 @@ class UserProfileModel {
       hasAvatar: hasAvatar ?? this.hasAvatar,
     );
   }
+
+  UserProfileModel updateWith(Map<String, dynamic> json) {
+    return UserProfileModel(
+      uid: json["uid"] ?? uid,
+      email: json["email"] ?? email,
+      name: json["name"] ?? name,
+      bio: json["bio"] ?? bio,
+      link: json["link"] ?? link,
+      hasAvatar: json["hasAvatar"] ?? hasAvatar,
+    );
+  }
 }

@@ -5,5 +5,13 @@
   "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}",
   "likeCount": "{value}",
   "commentCount": "{value}",
-  "commentTitle": "{value} {value2, plural, =0{노 댓글} =1{댓글} other{댓글s}}"
+  "commentTitle": "{value} {value2, plural, =0{노 댓글} =1{댓글} other{댓글s}}",
+  "profileEditTitle": "프로필 편집",
+  "userInfo": "회원 정보",
+  "nameHeader": "이름",
+  "uidHeader": "TikTok ID",
+  "bioHeader": "자기소개",
+  "linkHeader": "링크",
+  "changeAvatarHeader": "사진 변경",
+  "complete": "완료"
 }
