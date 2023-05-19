@@ -1,19 +1,24 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
-
 admin.initializeApp();
-
-// listen firestore events 
 export const onVideoCreated = functions.firestore
-.document("videos/{videoId}")
-.onCreate(async (snapshot, context) => {
-    snapshot.ref.update({"hello": "from functions"});
-});
+  .document("videos/{videoId}")
+  .onCreate(async (snapshot, context) => {
+    const spawn = require("child-process-promise").spawn;
+    const video = snapshot.data();
+    await spawn("ffmpeg", [
+      "-i",
+      video.fileUrl,
+      "-ss", // seek
+      "00:00:01.000",
+      "-vframes", // pick 1 frame
+      "1",
+      "-vf", // video filter
+      "scale=150:-1", // scale width=150, height=auto
+      `/tmp/${snapshot.id}.jpg`,
+    ]);
+    const storage = admin.storage();
+    await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
+      destination: `thumbnails/${snapshot.id}.jpg`,
+    });
+  });
