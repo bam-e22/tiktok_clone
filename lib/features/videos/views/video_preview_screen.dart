@@ -77,7 +77,7 @@ class _VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Preview video'),
         actions: [
@@ -226,8 +226,13 @@ class _VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
         ],
       ),
       body: _videoPlayerController.value.isInitialized
-          ? SafeArea(
-              child: VideoPlayer(_videoPlayerController),
+          ? FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                height: _videoPlayerController.value.size.height,
+                width: _videoPlayerController.value.size.width,
+                child: VideoPlayer(_videoPlayerController),
+              ),
             )
           : null,
     );

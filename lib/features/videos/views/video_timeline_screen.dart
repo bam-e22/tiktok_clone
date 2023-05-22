@@ -13,7 +13,6 @@ class VideoTimelineScreen extends ConsumerStatefulWidget {
 }
 
 class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
-  int _itemCount = 4;
   final PageController _pageController = PageController();
   final Duration _scrollDuration = const Duration(milliseconds: 250);
   final Curve _scrollCurve = Curves.linear;
@@ -25,14 +24,6 @@ class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
       duration: _scrollDuration,
       curve: _scrollCurve,
     );
-
-    // TODO pagination
-    /*var moreItemCount = 4;
-    if (page == _itemCount - 1) {
-      setState(() {
-        _itemCount += moreItemCount;
-      });
-    }*/
   }
 
   void _onVideoFinished() {
@@ -79,20 +70,24 @@ class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
         );
       },
       data: (videos) {
-        return SafeArea(
-          child: RefreshIndicator(
-            displacement: 50,
-            edgeOffset: 20,
-            color: Theme.of(context).primaryColor,
-            onRefresh: _onRefresh,
-            child: PageView.builder(
-              controller: _pageController,
-              scrollDirection: Axis.vertical,
-              itemCount: videos.length,
-              onPageChanged: _onPageChanged,
-              itemBuilder: (context, index) =>
-                  VideoPost(onVideoFinished: _onVideoFinished, index: index),
-            ),
+        return RefreshIndicator(
+          displacement: 50,
+          edgeOffset: 20,
+          color: Theme.of(context).primaryColor,
+          onRefresh: _onRefresh,
+          child: PageView.builder(
+            controller: _pageController,
+            scrollDirection: Axis.vertical,
+            itemCount: videos.length,
+            onPageChanged: _onPageChanged,
+            itemBuilder: (context, index) {
+              final videoData = videos[index];
+              return VideoPost(
+                onVideoFinished: _onVideoFinished,
+                videoData: videoData,
+                index: index,
+              );
+            },
           ),
         );
       },
