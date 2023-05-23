@@ -17,6 +17,8 @@ class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   final Duration _scrollDuration = const Duration(milliseconds: 250);
   final Curve _scrollCurve = Curves.linear;
 
+  int _itemCount = 0;
+
   void _onPageChanged(int page) {
     // TODO: 강제로 animate 하지 말고 pageView 스펙 자체를 변경할 수는 없을까?
     _pageController.animateToPage(
@@ -24,6 +26,10 @@ class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
       duration: _scrollDuration,
       curve: _scrollCurve,
     );
+    // pagination
+    if (page == _itemCount - 1) {
+      ref.watch(timelineProvider.notifier).fetchNextPage();
+    }
   }
 
   void _onVideoFinished() {
@@ -70,6 +76,7 @@ class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
         );
       },
       data: (videos) {
+        _itemCount = videos.length;
         return RefreshIndicator(
           displacement: 50,
           edgeOffset: 20,
