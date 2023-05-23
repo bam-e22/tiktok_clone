@@ -41,10 +41,7 @@ class _VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   }
 
   Future<void> _onRefresh() {
-    return Future.delayed(
-      // Fake api call
-      const Duration(seconds: 2),
-    );
+    return ref.watch(timelineProvider.notifier).refresh();
   }
 
   @override

@@ -36,6 +36,7 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
           // database
           await _videosRepository.saveVideo(
             VideoModel(
+              id: "", // TODO
               title: title,
               description: description,
               fileUrl: await uploadTask.ref.getDownloadURL(),
