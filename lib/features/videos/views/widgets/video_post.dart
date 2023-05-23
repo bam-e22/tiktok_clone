@@ -30,8 +30,7 @@ class VideoPost extends ConsumerStatefulWidget {
 
 class _VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/39764.mp4");
+  late final VideoPlayerController _videoPlayerController;
 
   bool _isPaused = false;
   final Duration _animatedDuration = const Duration(milliseconds: 200);
@@ -57,6 +56,10 @@ class _VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    /*_videoPlayerController =
+        VideoPlayerController.network(widget.videoData.fileUrl);*/
+    _videoPlayerController =
+        VideoPlayerController.asset("assets/videos/39764.mp4"); // for test
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     _initVolume();
@@ -154,12 +157,19 @@ class _VideoPostState extends ConsumerState<VideoPost>
       child: Stack(
         children: [
           Positioned.fill(
-            child: _videoPlayerController.value.isInitialized
-                ? VideoPlayer(_videoPlayerController)
-                : Image.network(
-                    widget.videoData.thumbnailUrl,
-                    fit: BoxFit.cover,
-                  ),
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                height: _videoPlayerController.value.size.height,
+                width: _videoPlayerController.value.size.width,
+                child: _videoPlayerController.value.isInitialized
+                    ? VideoPlayer(_videoPlayerController)
+                    : Image.network(
+                        widget.videoData.thumbnailUrl,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
           ),
           Positioned.fill(
             child: GestureDetector(
