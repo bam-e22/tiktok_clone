@@ -38,7 +38,7 @@ class VideosRepository {
     }
   }
 
-  Future<void> likeVideo({
+  Future<void> toggleLikeVideo({
     required String videoId,
     required String userId,
   }) async {
@@ -48,7 +48,9 @@ class VideosRepository {
       await query.set({
         "createdAt": DateTime.now().millisecondsSinceEpoch,
       });
-    } else {}
+    } else {
+      await query.delete();
+    }
   }
 }
 

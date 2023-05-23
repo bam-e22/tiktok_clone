@@ -1,6 +1,8 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+
 admin.initializeApp();
+
 export const onVideoCreated = functions.firestore
   .document("videos/{videoId}")
   .onCreate(async (snapshot, context) => {
@@ -34,4 +36,32 @@ export const onVideoCreated = functions.firestore
                 thumbnailUrl: file.publicUrl(),
                 videoId: snapshot.id
             });
+  });
+
+export const onLikedCreated = functions.firestore
+  .document("likes/{likeId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const [videoId, _] = snapshot.id.split("000");
+    functions.logger.log("onLikedCreated videoId:", videoId);
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({
+        likes: admin.firestore.FieldValue.increment(1),
+      });
+  });
+
+export const onLikedRemoved = functions.firestore
+  .document("likes/{likeId}")
+  .onDelete(async (snapshot, context) => {
+    const db = admin.firestore();
+    const [videoId, _] = snapshot.id.split("000");
+    functions.logger.log("onLikedCreated videoId:", videoId);
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({
+        likes: admin.firestore.FieldValue.increment(-1),
+      });
   });
