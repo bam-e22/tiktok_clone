@@ -14,6 +14,11 @@ class PlaybackConfigViewModel extends Notifier<PlaybackConfigModel> {
     state = state.copyWith(muted: value);
   }
 
+  Future<void> setLooping(bool value) async {
+    await _repository.setLooping(value);
+    state = state.copyWith(looping: value);
+  }
+
   Future<void> setAutoplay(bool value) async {
     await _repository.setAutoplay(value);
     state = state.copyWith(autoplay: value);
@@ -24,6 +29,7 @@ class PlaybackConfigViewModel extends Notifier<PlaybackConfigModel> {
     return PlaybackConfigModel(
       muted: _repository.isMuted(),
       autoplay: _repository.isAutoplay(),
+      looping: _repository.isLooping(),
     );
   }
 }

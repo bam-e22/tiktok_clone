@@ -56,6 +56,15 @@ class SettingsScreen extends ConsumerWidget {
             subtitle: const Text('Video will start playing automatically.'),
           ),
           SwitchListTile.adaptive(
+            value: ref.watch(playbackConfigProvider).looping,
+            onChanged: (value) async {
+              await ref.read(playbackConfigProvider.notifier).setLooping(value);
+            },
+            title: const Text('Looping'),
+            subtitle: const Text(
+                'Sets whether or not the video should loop after playing once'),
+          ),
+          SwitchListTile.adaptive(
             value: false,
             onChanged: (value) {},
             title: const Text('Enable notifications'),
@@ -135,7 +144,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
           ),
-          ListTile(
+          /*ListTile(
             title: const Text(
               'Log out (Android)',
             ),
@@ -181,7 +190,7 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
             ),
-          )
+          ),*/
         ],
       ),
     );

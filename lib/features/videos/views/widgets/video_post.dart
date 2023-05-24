@@ -38,6 +38,7 @@ class _VideoPostState extends ConsumerState<VideoPost>
   late final AnimationController _animationController;
   bool _isTagTextExpanded = false;
   late bool _isMuted = ref.read(playbackConfigProvider).muted;
+  late bool _isLooping = ref.read(playbackConfigProvider).looping;
 
   Future<void> _initVolume() async {
     if (kIsWeb) {
@@ -62,7 +63,7 @@ class _VideoPostState extends ConsumerState<VideoPost>
     _videoPlayerController =
         VideoPlayerController.asset("assets/videos/39764.mp4"); // for test
     await _videoPlayerController.initialize();
-    await _videoPlayerController.setLooping(true);
+    await _videoPlayerController.setLooping(_isLooping);
     _initVolume();
 
     _videoPlayerController.addListener(_onVideoChange);
