@@ -8,10 +8,12 @@ class VideoSnsButton extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.text,
+    this.enabled = false,
   }) : super(key: key);
 
   final IconData icon;
   final String text;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class VideoSnsButton extends StatelessWidget {
       children: [
         FaIcon(
           icon,
-          color: Colors.white,
+          color: enabled ? Colors.red : Colors.white,
           size: Sizes.size40,
         ),
         Gaps.v5,

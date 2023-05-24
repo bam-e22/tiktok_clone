@@ -4,14 +4,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/videos/repos/videos_repo.dart';
 
-class VideoPostVideModel extends FamilyAsyncNotifier<void, String> {
+class VideoLikeViewModel extends FamilyAsyncNotifier<bool, String> {
   late final VideosRepository _videosRepository;
   late final String _videoId;
+  late bool _isLiked;
 
   @override
-  FutureOr<void> build(String videoId) {
+  FutureOr<bool> build(String videoId) async {
     _videoId = videoId;
     _videosRepository = ref.read(videosRepo);
+    final user = ref.read(authRepo).user;
+    _isLiked = await _videosRepository.isLikedVideo(
+        videoId: _videoId, userId: user!.uid);
+    return _isLiked;
   }
 
   Future<void> toggleLikeVideo() async {
@@ -20,10 +25,12 @@ class VideoPostVideModel extends FamilyAsyncNotifier<void, String> {
       videoId: _videoId,
       userId: user!.uid,
     );
+    _isLiked = !_isLiked;
+    state = AsyncValue.data(_isLiked);
   }
 }
 
-final videoPostProvider =
-    AsyncNotifierProvider.family<VideoPostVideModel, void, String>(
-  () => VideoPostVideModel(),
+final videoLikeProvider =
+    AsyncNotifierProvider.family<VideoLikeViewModel, bool, String>(
+  () => VideoLikeViewModel(),
 );

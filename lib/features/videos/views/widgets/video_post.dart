@@ -6,7 +6,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_view_model.dart';
-import 'package:tiktok_clone/features/videos/view_models/video_post_view_model.dart';
+import 'package:tiktok_clone/features/videos/view_models/video_like_view_model.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_sns_button.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -38,13 +38,14 @@ class _VideoPostState extends ConsumerState<VideoPost>
   late final AnimationController _animationController;
   bool _isTagTextExpanded = false;
   late bool _isMuted = ref.read(playbackConfigProvider).muted;
-  late bool _isLooping = ref.read(playbackConfigProvider).looping;
+  late final bool _isLooping = ref.read(playbackConfigProvider).looping;
+  late int likeCount = widget.videoData.likes;
 
   Future<void> _initVolume() async {
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     } else {
-      _videoPlayerController.setVolume(_isMuted ? 0.0 : 1.0);
+      await _videoPlayerController.setVolume(_isMuted ? 0.0 : 1.0);
     }
   }
 
@@ -131,8 +132,18 @@ class _VideoPostState extends ConsumerState<VideoPost>
     _onTogglePause();
   }
 
-  void _onLikeTap() {
-    ref.read(videoPostProvider(widget.videoData.id).notifier).toggleLikeVideo();
+  void _onLikeTap() async {
+    await ref
+        .read(videoLikeProvider(widget.videoData.id).notifier)
+        .toggleLikeVideo();
+    final isSelfLiked =
+        ref.read(videoLikeProvider(widget.videoData.id)).requireValue;
+    if (isSelfLiked) {
+      likeCount += 1;
+    } else {
+      likeCount -= 1;
+    }
+    setState(() {});
   }
 
   @override
@@ -326,8 +337,12 @@ class _VideoPostState extends ConsumerState<VideoPost>
                 GestureDetector(
                   onTap: _onLikeTap,
                   child: VideoSnsButton(
+                    enabled: ref
+                            .watch(videoLikeProvider(widget.videoData.id))
+                            .value ??
+                        false,
                     icon: FontAwesomeIcons.solidHeart,
-                    text: S.of(context).likeCount(widget.videoData.likes),
+                    text: S.of(context).likeCount(likeCount),
                   ),
                 ),
                 Gaps.v24,
