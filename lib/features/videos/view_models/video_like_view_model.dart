@@ -10,8 +10,8 @@ class VideoLikeViewModel extends FamilyAsyncNotifier<bool, String> {
   late bool _isLiked;
 
   @override
-  FutureOr<bool> build(String videoId) async {
-    _videoId = videoId;
+  FutureOr<bool> build(String arg) async {
+    _videoId = arg;
     _videosRepository = ref.read(videosRepo);
     final user = ref.read(authRepo).user;
     _isLiked = await _videosRepository.isLikedVideo(

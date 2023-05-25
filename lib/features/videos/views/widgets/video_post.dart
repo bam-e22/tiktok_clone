@@ -59,10 +59,10 @@ class _VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _initVideoPlayer() async {
-    /*_videoPlayerController =
-        VideoPlayerController.network(widget.videoData.fileUrl);*/
     _videoPlayerController =
-        VideoPlayerController.asset("assets/videos/39764.mp4"); // for test
+        VideoPlayerController.network(widget.videoData.fileUrl);
+    /*_videoPlayerController =
+        VideoPlayerController.asset("assets/videos/39764.mp4"); // for test*/
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(_isLooping);
     _initVolume();

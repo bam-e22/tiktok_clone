@@ -33,8 +33,8 @@ export const onVideoCreated = functions.firestore
             .collection("videos")
             .doc(snapshot.id)
             .set({
-                thumbnailUrl: file.publicUrl(),
-                videoId: snapshot.id
+                "thumbnailUrl": file.publicUrl(),
+                "videoId": snapshot.id
             });
   });
 
@@ -42,26 +42,41 @@ export const onLikedCreated = functions.firestore
   .document("likes/{likeId}")
   .onCreate(async (snapshot, context) => {
     const db = admin.firestore();
-    const [videoId, _] = snapshot.id.split("000");
-    functions.logger.log("onLikedCreated videoId:", videoId);
-    await db
-      .collection("videos")
-      .doc(videoId)
-      .update({
-        likes: admin.firestore.FieldValue.increment(1),
-      });
+    const [videoId, userId] = snapshot.id.split("000");
+    const videoDocRef = db.collection("videos").doc(videoId);
+
+    await videoDocRef
+          .update({
+            likes: admin.firestore.FieldValue.increment(1),
+          });
+
+    const videoDoc = await videoDocRef.get();
+    const video = videoDoc.data();
+
+    if (video) {
+      await db
+        .collection("users")
+        .doc(userId)
+        .collection("likes")
+        .doc(videoId)
+        .set({
+            "thumbnailUrl": video.thumbnailUrl,
+            "videoId": videoId
+        });
+    }
   });
 
 export const onLikedRemoved = functions.firestore
   .document("likes/{likeId}")
   .onDelete(async (snapshot, context) => {
     const db = admin.firestore();
-    const [videoId, _] = snapshot.id.split("000");
-    functions.logger.log("onLikedCreated videoId:", videoId);
+    const [videoId, userId] = snapshot.id.split("000");
     await db
       .collection("videos")
       .doc(videoId)
       .update({
         likes: admin.firestore.FieldValue.increment(-1),
       });
+
+    await db.collection("users").doc(userId).collection("likes").doc(videoId).delete();
   });
