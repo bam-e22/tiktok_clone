@@ -38,6 +38,17 @@ class VideosRepository {
     }
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchMyVideos(String uid) async {
+    final videoRef = _db.collection("users").doc(uid).collection("videos");
+    return videoRef.get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchLikedVideos(
+      String uid) async {
+    final videoRef = _db.collection("users").doc(uid).collection("likes");
+    return videoRef.get();
+  }
+
   Future<void> toggleLikeVideo({
     required String videoId,
     required String userId,

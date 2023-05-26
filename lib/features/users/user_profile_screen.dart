@@ -9,6 +9,9 @@ import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 import 'package:tiktok_clone/features/users/widgets/avatar.dart';
 import 'package:tiktok_clone/features/users/widgets/persistent_tabbar.dart';
 import 'package:tiktok_clone/features/users/widgets/two_line_texts.dart';
+import 'package:tiktok_clone/features/videos/view_models/liked_video_view_model.dart';
+import 'package:tiktok_clone/features/videos/view_models/my_video_view_model.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -73,7 +76,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           loading: () => const Center(
             child: CircularProgressIndicator.adaptive(),
           ),
-          data: (data) {
+          data: (userProfile) {
             return Scaffold(
               backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               body: SafeArea(
@@ -83,7 +86,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                     headerSliverBuilder: (context, innerBoxIsScrolled) {
                       return [
                         SliverAppBar(
-                          title: Text(data.name),
+                          title: Text(userProfile.name),
                           actions: [
                             IconButton(
                               onPressed: _onProfileEditPressed,
@@ -106,9 +109,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                             children: [
                               Gaps.v20,
                               Avatar(
-                                name: data.name,
-                                hasAvatar: data.hasAvatar,
-                                uid: data.uid,
+                                name: userProfile.name,
+                                hasAvatar: userProfile.hasAvatar,
+                                uid: userProfile.uid,
                                 isEditMode: false,
                               ),
                               Gaps.v20,
@@ -116,7 +119,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '@${data.name}',
+                                    '@${userProfile.name}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: Sizes.size18,
@@ -238,27 +241,27 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                                 ],
                               ),
                               Gaps.v14,
-                              const Padding(
-                                padding: EdgeInsets.symmetric(
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
                                   horizontal: Sizes.size32,
                                 ),
                                 child: Text(
-                                  "I'm sharing daily development life. So exciting...... #Dart #Flutter #Android #Kotlin ",
+                                  userProfile.bio,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                               Gaps.v14,
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(
+                                  const FaIcon(
                                     FontAwesomeIcons.link,
                                     size: Sizes.size12,
                                   ),
                                   Gaps.h4,
                                   Text(
-                                    'https://github.com/bam-e22',
-                                    style: TextStyle(
+                                    userProfile.link,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -276,62 +279,136 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                     },
                     body: TabBarView(
                       children: [
-                        GridView.builder(
-                          keyboardDismissBehavior:
-                              ScrollViewKeyboardDismissBehavior.onDrag,
-                          itemCount: 20,
-                          padding: EdgeInsets.zero,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 9 / 14,
-                            crossAxisCount: 3,
-                            crossAxisSpacing: Sizes.size2,
-                            mainAxisSpacing: Sizes.size2,
-                          ),
-                          itemBuilder: (context, index) {
-                            return Stack(
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: 9 / 14,
-                                  child: FadeInImage.assetNetwork(
-                                    fit: BoxFit.cover,
-                                    placeholder:
-                                        "assets/images/placeholder.jpg",
-                                    image:
-                                        'https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80',
+                        ref.watch(myVideoProvider).when(
+                              data: (thumbnails) {
+                                return GridView.builder(
+                                  keyboardDismissBehavior:
+                                      ScrollViewKeyboardDismissBehavior.onDrag,
+                                  itemCount: thumbnails.length,
+                                  padding: EdgeInsets.zero,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 9 / 14,
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: Sizes.size2,
+                                    mainAxisSpacing: Sizes.size2,
                                   ),
-                                ),
-                                const Positioned(
-                                  bottom: 5,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.play_arrow_outlined,
-                                        color: Colors.white,
-                                        size: Sizes.size24,
-                                      ),
-                                      Gaps.h2,
-                                      Text(
-                                        '4.1M',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: Sizes.size14,
+                                  itemBuilder: (context, index) {
+                                    return Stack(
+                                      children: [
+                                        AspectRatio(
+                                          aspectRatio: 9 / 14,
+                                          child: FadeInImage.memoryNetwork(
+                                            fit: BoxFit.cover,
+                                            placeholder: kTransparentImage,
+                                            image:
+                                                thumbnails[index].thumbnailUrl,
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                        const Positioned(
+                                          bottom: 5,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.play_arrow_outlined,
+                                                color: Colors.white,
+                                                size: Sizes.size24,
+                                              ),
+                                              Gaps.h2,
+                                              Text(
+                                                '4.1M',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: Sizes.size14,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              error: (error, stackTrace) => Center(
+                                child: Text(
+                                  error.toString(),
+                                ),
+                              ),
+                              loading: () => const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              ),
+                            ),
+                        ref.watch(likedVideoProvider).when(
+                              data: (thumbnails) {
+                                return GridView.builder(
+                                  keyboardDismissBehavior:
+                                      ScrollViewKeyboardDismissBehavior.onDrag,
+                                  itemCount: thumbnails.length,
+                                  padding: EdgeInsets.zero,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 9 / 14,
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: Sizes.size2,
+                                    mainAxisSpacing: Sizes.size2,
                                   ),
-                                )
-                              ],
-                            );
-                          },
-                        ),
-                        const Center(
-                          child: Text('Page 2'),
-                        )
+                                  itemBuilder: (context, index) {
+                                    return Stack(
+                                      children: [
+                                        AspectRatio(
+                                          aspectRatio: 9 / 14,
+                                          child: FadeInImage.memoryNetwork(
+                                            fit: BoxFit.cover,
+                                            placeholder: kTransparentImage,
+                                            image:
+                                                thumbnails[index].thumbnailUrl,
+                                          ),
+                                        ),
+                                        const Positioned(
+                                          bottom: 5,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.play_arrow_outlined,
+                                                color: Colors.white,
+                                                size: Sizes.size24,
+                                              ),
+                                              Gaps.h2,
+                                              Text(
+                                                '4.1M',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: Sizes.size14,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              error: (error, stackTrace) => Center(
+                                child: Text(
+                                  error.toString(),
+                                ),
+                              ),
+                              loading: () => const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              ),
+                            ),
                       ],
                     ),
                   ),
