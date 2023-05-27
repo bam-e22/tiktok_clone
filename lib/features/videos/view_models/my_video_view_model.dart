@@ -5,7 +5,8 @@ import 'package:tiktok_clone/features/authentication/repos/authentication_repo.d
 import 'package:tiktok_clone/features/videos/models/video_thumbnail_model.dart';
 import 'package:tiktok_clone/features/videos/repos/videos_repo.dart';
 
-class MyVideoViewModel extends AsyncNotifier<List<VideoThumbnailModel>> {
+class MyVideoViewModel
+    extends AutoDisposeAsyncNotifier<List<VideoThumbnailModel>> {
   late final VideosRepository _videosRepository;
   late final AuthenticationRepository _authRepository;
   List<VideoThumbnailModel> _list = [];
@@ -32,7 +33,7 @@ class MyVideoViewModel extends AsyncNotifier<List<VideoThumbnailModel>> {
   }
 }
 
-final myVideoProvider =
-    AsyncNotifierProvider<MyVideoViewModel, List<VideoThumbnailModel>>(
+final myVideoProvider = AsyncNotifierProvider.autoDispose<MyVideoViewModel,
+    List<VideoThumbnailModel>>(
   () => MyVideoViewModel(),
 );

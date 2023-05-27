@@ -6,7 +6,7 @@ import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/repos/user_repository.dart';
 import 'package:tiktok_clone/utils.dart';
 
-class UsersViewModel extends AsyncNotifier<UserProfileModel> {
+class UsersViewModel extends AutoDisposeAsyncNotifier<UserProfileModel> {
   late final UserRepository _usersRepository;
   late final AuthenticationRepository _authenticationRepository;
 
@@ -47,6 +47,7 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
   }
 }
 
-final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(
+final usersProvider =
+    AsyncNotifierProvider.autoDispose<UsersViewModel, UserProfileModel>(
   () => UsersViewModel(),
 );
