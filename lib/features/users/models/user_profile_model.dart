@@ -31,13 +31,14 @@ class UserProfileModel {
   final String link;
   final bool hasAvatar;
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       "uid": uid,
       "email": email,
       "name": name,
       "bio": bio,
       "link": link,
+      "hasAvatar": hasAvatar,
     };
   }
 

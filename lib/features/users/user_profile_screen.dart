@@ -68,11 +68,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   @override
   Widget build(BuildContext context) {
     return ref.watch(usersProvider).when(
-          error: (error, stackTrace) => Center(
-            child: Text(
-              error.toString(),
-            ),
-          ),
+          error: (error, stackTrace) {
+            return Center(
+              child: Text(
+                error.toString(),
+              ),
+            );
+          },
           loading: () => const Center(
             child: CircularProgressIndicator.adaptive(),
           ),

@@ -119,7 +119,7 @@ class SettingsScreen extends ConsumerWidget {
           const AboutListTile(),
           ListTile(
             title: const Text(
-              'Log out (iOS)',
+              'Log out',
             ),
             textColor: Colors.red,
             onTap: () => showCupertinoDialog(
