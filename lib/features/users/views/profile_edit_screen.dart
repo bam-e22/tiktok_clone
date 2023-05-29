@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/users/profile_detail_edit_screen.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
-import 'package:tiktok_clone/features/users/widgets/avatar.dart';
+import 'package:tiktok_clone/features/users/views/profile_detail_edit_screen.dart';
+import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class ProfileEditScreen extends ConsumerWidget {

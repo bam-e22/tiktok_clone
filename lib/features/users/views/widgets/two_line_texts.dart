@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../constants/gaps.dart';
-import '../../../constants/sizes.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 class TwoLineTexts extends StatelessWidget {
   const TwoLineTexts({
