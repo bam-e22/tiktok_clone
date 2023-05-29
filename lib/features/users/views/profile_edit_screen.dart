@@ -64,8 +64,8 @@ class ProfileEditScreen extends ConsumerWidget {
                           Avatar(
                             uid: data.uid,
                             name: data.name,
-                            hasAvatar: data.hasAvatar,
                             isEditMode: true,
+                            radius: 50,
                           ),
                           Gaps.v8,
                           Text(

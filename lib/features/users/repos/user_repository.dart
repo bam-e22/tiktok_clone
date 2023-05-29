@@ -26,6 +26,16 @@ class UserRepository {
   Future<void> updateUser(String uid, Map<String, dynamic> data) async {
     await _db.collection("users").doc(uid).update(data);
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchAllUsers(
+      {String? lastUserUid}) {
+    final query = _db.collection("users").orderBy("uid").limit(20); // for test
+    if (lastUserUid == null) {
+      return query.get();
+    } else {
+      return query.startAfter([lastUserUid]).get();
+    }
+  }
 }
 
 final userRepo = Provider(

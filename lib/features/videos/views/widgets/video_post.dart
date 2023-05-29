@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
 import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/video_like_view_model.dart';
@@ -324,14 +325,10 @@ class _VideoPostState extends ConsumerState<VideoPost>
             right: 10,
             child: Column(
               children: [
-                CircleAvatar(
+                Avatar(
                   radius: 25,
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(
-                    "https://firebasestorage.googleapis.com/v0/b/tiktok-bam-e22.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
-                  ),
-                  child: Text(widget.videoData.creator),
+                  uid: widget.videoData.creatorUid,
+                  name: widget.videoData.creator,
                 ),
                 Gaps.v24,
                 GestureDetector(

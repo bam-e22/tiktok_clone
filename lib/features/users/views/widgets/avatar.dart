@@ -11,15 +11,15 @@ class Avatar extends ConsumerStatefulWidget {
   Avatar({
     super.key,
     required this.name,
-    required this.hasAvatar,
     required this.uid,
-    required this.isEditMode,
+    this.isEditMode = false,
+    required this.radius,
   });
 
   final String name;
-  final bool hasAvatar;
   final String uid;
   final bool isEditMode;
+  final int radius;
   late final String avatarUrl =
       "https://firebasestorage.googleapis.com/v0/b/tiktok-bam-e22.appspot.com/o/avatars%2F$uid?alt=media";
 
@@ -53,47 +53,51 @@ class _AvatarState extends ConsumerState<Avatar> {
     final isLoading = ref.watch(avatarProvider).isLoading;
     return GestureDetector(
       onTap: isLoading ? null : () => _onAvatarTap(ref),
-      child: widget.hasAvatar
-          ? CachedNetworkImage(
-              key: ValueKey(timestamp),
-              imageUrl: widget.avatarUrl,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.black26,
-                          BlendMode.overlay,
-                        )),
-                  ),
-                  child: widget.isEditMode
-                      ? Container(
-                          alignment: Alignment.center,
-                          width: 100,
-                          height: 100,
-                          decoration:
-                              const BoxDecoration(shape: BoxShape.circle),
-                          child: const Icon(
-                            Icons.camera_alt_outlined,
-                            size: Sizes.size32,
-                            color: Colors.white,
-                          ),
-                        )
-                      : null,
-                );
-              },
-            )
-          : CircleAvatar(
-              radius: 50,
-              child: Text(widget.name),
+      child: CachedNetworkImage(
+        key: ValueKey(timestamp),
+        imageUrl: widget.avatarUrl,
+        progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
+          width: widget.radius.toDouble() * 2,
+          height: widget.radius.toDouble() * 2,
+          child: Center(
+            child: CircularProgressIndicator.adaptive(
+                value: downloadProgress.progress),
+          ),
+        ),
+        errorWidget: (context, url, error) => CircleAvatar(
+          radius: widget.radius.toDouble(),
+          child: Text(widget.name),
+        ),
+        imageBuilder: (context, imageProvider) {
+          return Container(
+            width: widget.radius.toDouble() * 2,
+            height: widget.radius.toDouble() * 2,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.black26,
+                    BlendMode.overlay,
+                  )),
             ),
+            child: widget.isEditMode
+                ? Container(
+                    alignment: Alignment.center,
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: const Icon(
+                      Icons.camera_alt_outlined,
+                      size: Sizes.size32,
+                      color: Colors.white,
+                    ),
+                  )
+                : null,
+          );
+        },
+      ),
     );
   }
 }

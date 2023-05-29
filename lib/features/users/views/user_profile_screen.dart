@@ -112,9 +112,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                               Gaps.v20,
                               Avatar(
                                 name: userProfile.name,
-                                hasAvatar: userProfile.hasAvatar,
                                 uid: userProfile.uid,
                                 isEditMode: false,
+                                radius: 50,
                               ),
                               Gaps.v20,
                               Row(

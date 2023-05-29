@@ -38,7 +38,7 @@ final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
   final db = FirebaseFirestore.instance;
   return db
       .collection("chat_rooms")
-      .doc("SAXS5XcKUvVKCHHfyAGC")
+      .doc("SAXS5XcKUvVKCHHfyAGC") // for test
       .collection("text")
       .orderBy("createdAt")
       .snapshots()
