@@ -9,10 +9,10 @@ import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart
 class ChatDetailScreen extends ConsumerStatefulWidget {
   const ChatDetailScreen({
     Key? key,
-    required this.chatId,
+    required this.chatRoomId,
   }) : super(key: key);
 
-  final String chatId;
+  final String chatRoomId;
 
   @override
   ConsumerState<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -24,13 +24,13 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   void _onSendPressed() {
     final text = _textEditingController.text;
     if (text == "") return;
-    ref.read(messagesProvider.notifier).sendMessage(text);
+    ref.read(messagesProvider(widget.chatRoomId).notifier).sendMessage(text);
     _textEditingController.text = "";
   }
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(messagesProvider).isLoading;
+    final isLoading = ref.watch(messagesProvider(widget.chatRoomId)).isLoading;
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -61,7 +61,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ],
           ),
           title: Text(
-            'todd (${widget.chatId})',
+            'todd (${widget.chatRoomId})',
             style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
@@ -89,7 +89,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ),
       body: Stack(
         children: [
-          ref.watch(chatProvider).when(
+          ref.watch(chatProvider(widget.chatRoomId)).when(
               data: (messages) {
                 return ListView.separated(
                   reverse: true,

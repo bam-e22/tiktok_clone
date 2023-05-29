@@ -5,7 +5,8 @@ import 'package:tiktok_clone/features/authentication/repos/authentication_repo.d
 import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/repos/user_repository.dart';
 
-class ChatUsersViewModel extends AsyncNotifier<List<UserProfileModel>> {
+class ChatUsersViewModel
+    extends AutoDisposeAsyncNotifier<List<UserProfileModel>> {
   late final UserRepository _userRepository;
   late final AuthenticationRepository _authRepository;
   List<UserProfileModel> _users = [];
@@ -35,7 +36,7 @@ class ChatUsersViewModel extends AsyncNotifier<List<UserProfileModel>> {
   }
 }
 
-final chatUsersProvider =
-    AsyncNotifierProvider<ChatUsersViewModel, List<UserProfileModel>>(
+final chatUsersProvider = AsyncNotifierProvider.autoDispose<ChatUsersViewModel,
+    List<UserProfileModel>>(
   () => ChatUsersViewModel(),
 );

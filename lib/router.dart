@@ -26,7 +26,7 @@ class Routes {
   static const String chatsScreen = "chats";
   static const String chatsUrl = "/chats";
   static const String chatDetailScreen = "chatDetail";
-  static const String chatDetailUrl = ":chatId"; // /chat/:chatId
+  static const String chatDetailUrl = ":chatRoomId"; // /chat/:chatRoomId
   static const String videoRecordScreen = "postVideo";
   static const String videoRecordUrl = "/upload";
 }
@@ -85,14 +85,14 @@ final routerProvider = Provider(
           path: Routes.chatsUrl,
           builder: (context, state) => const ChatsScreen(),
           routes: [
-            // child nested route "/chats:chatId"
+            // child nested route "/chats:chatRoomId"
             GoRoute(
               name: Routes.chatDetailScreen,
               path: Routes.chatDetailUrl,
               builder: (context, state) {
-                print("chatId= ${state.pathParameters["chatId"]}");
-                final chatId = state.pathParameters["chatId"]!;
-                return ChatDetailScreen(chatId: chatId);
+                print("chatRoomId= ${state.pathParameters["chatRoomId"]}");
+                final chatRoomId = state.pathParameters["chatRoomId"]!;
+                return ChatDetailScreen(chatRoomId: chatRoomId);
               },
             ),
           ],
