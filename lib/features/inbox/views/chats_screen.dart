@@ -27,10 +27,12 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
     );
   }
 
-  // TODO: delete chat_rooms
-  void _deleteItem() {}
+  Future<void> _onChatLongPressed(String chatRoomId) async {
+    await ref
+        .read(chatRoomProvider.notifier)
+        .deleteChatRoom(chatRoomId: chatRoomId);
+  }
 
-  // TODO: parameter
   void _onChatTap(String chatRoomId) {
     context.pushNamed(
       Routes.chatDetailScreen,
@@ -40,7 +42,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
 
   Widget _makeTile(ChatRoomModel chatRoom) {
     return ListTile(
-      onLongPress: () => _deleteItem(),
+      onLongPress: () => _onChatLongPressed(chatRoom.chatRoomId),
       onTap: () => _onChatTap(chatRoom.chatRoomId),
       leading: Avatar(
         radius: 30,

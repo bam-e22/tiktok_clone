@@ -62,6 +62,14 @@ class ChatRoomViewModel extends AutoDisposeAsyncNotifier<List<ChatRoomModel>> {
       pathParameters: {"chatRoomId": chatRoomId},
     );
   }
+
+  Future<void> deleteChatRoom({
+    required String chatRoomId,
+  }) async {
+    await _chatRoomRepository.deleteChatRoom(
+      chatRoomId: chatRoomId,
+    );
+  }
 }
 
 final chatRoomProvider =

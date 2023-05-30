@@ -20,6 +20,25 @@ class ChatRoomRepository {
     }
   }
 
+  // TODO: delete via cloud functions
+  Future<void> deleteChatRoom({
+    required String chatRoomId,
+  }) async {
+    await _db
+        .collection("chat_rooms")
+        .doc(chatRoomId)
+        .collection("text")
+        .get()
+        .then(
+          (querySnapshot) => querySnapshot.docs.forEach(
+            (doc) {
+              doc.reference.delete();
+            },
+          ),
+        );
+    await _db.collection("chat_rooms").doc(chatRoomId).delete();
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> fetchChatRooms(String uid) async {
     final chatRoomsQuery =
         _db.collection("users").doc(uid).collection("chat_rooms");

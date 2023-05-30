@@ -6,6 +6,7 @@ import 'package:tiktok_clone/features/inbox/view_models/chat_users_view_model.da
 import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
 
+// TODO: pagination
 class ChatUsersScreen extends ConsumerWidget {
   const ChatUsersScreen({
     Key? key,
