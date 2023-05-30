@@ -57,6 +57,7 @@ class ChatRoomViewModel extends AutoDisposeAsyncNotifier<List<ChatRoomModel>> {
       otherUid: otherUid,
     );
     if (!context.mounted) return;
+    context.pop();
     context.pushNamed(
       Routes.chatDetailScreen,
       pathParameters: {"chatRoomId": chatRoomId},
