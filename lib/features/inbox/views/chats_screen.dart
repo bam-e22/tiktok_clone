@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/inbox/models/chat_room_model.dart';
+import 'package:tiktok_clone/features/inbox/view_models/chat_room_view_model.dart';
 import 'package:tiktok_clone/features/inbox/views/chat_users_screen.dart';
+import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
 import 'package:tiktok_clone/router.dart';
 
-class ChatsScreen extends StatefulWidget {
+class ChatsScreen extends ConsumerStatefulWidget {
   const ChatsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ChatsScreen> createState() => _ChatsScreenState();
+  ConsumerState<ChatsScreen> createState() => _ChatsScreenState();
 }
 
-class _ChatsScreenState extends State<ChatsScreen> {
-  final GlobalKey<AnimatedListState> _key = GlobalKey();
-
-  final List<int> _items = [];
-
-  final Duration _duration = const Duration(milliseconds: 300);
-
+class _ChatsScreenState extends ConsumerState<ChatsScreen> {
   void _addItem() {
     Navigator.push(
       context,
@@ -29,35 +28,24 @@ class _ChatsScreenState extends State<ChatsScreen> {
   }
 
   // TODO: delete chat_rooms
-  void _deleteItem(int index) {
-    _key.currentState?.removeItem(
-      index,
-      (context, animation) => SizeTransition(
-        sizeFactor: animation,
-        child: _makeTile(index),
-      ),
-      duration: _duration,
-    );
-    _items.removeAt(index);
-  }
+  void _deleteItem() {}
 
   // TODO: parameter
-  void _onChatTap(int index) {
+  void _onChatTap(String chatRoomId) {
     context.pushNamed(
       Routes.chatDetailScreen,
-      pathParameters: {"chatRoomId": "$index"},
+      pathParameters: {"chatRoomId": chatRoomId},
     );
   }
 
-  Widget _makeTile(int index) {
+  Widget _makeTile(ChatRoomModel chatRoom) {
     return ListTile(
-      onLongPress: () => _deleteItem(index),
-      onTap: () => _onChatTap(index),
-      leading: const CircleAvatar(
+      onLongPress: () => _deleteItem(),
+      onTap: () => _onChatTap(chatRoom.chatRoomId),
+      leading: Avatar(
         radius: 30,
-        foregroundImage: NetworkImage(
-            'https://avatars.githubusercontent.com/u/23008504?v=4'),
-        child: Text('todd'),
+        name: chatRoom.otherName,
+        uid: chatRoom.otherUid,
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +53,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
         children: [
           Text(
             key: UniqueKey(),
-            'ddonggo $index',
+            chatRoom.otherName,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
@@ -79,8 +67,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
           ),
         ],
       ),
-      subtitle: const Text(
-        'last message',
+      subtitle: Text(
+        chatRoom.lastMessage,
       ),
     );
   }
@@ -100,23 +88,23 @@ class _ChatsScreenState extends State<ChatsScreen> {
           )
         ],
       ),
-      body: AnimatedList(
-        key: _key,
-        initialItemCount: 0,
-        padding: const EdgeInsets.symmetric(
-          vertical: Sizes.size10,
-        ),
-        itemBuilder: (context, index, Animation<double> animation) {
-          return FadeTransition(
-            key: UniqueKey(),
-            opacity: animation,
-            child: SizeTransition(
-              sizeFactor: animation,
-              child: _makeTile(index),
+      body: ref.watch(chatRoomProvider).when(
+            data: (chatRooms) {
+              return ListView.separated(
+                itemBuilder: (context, index) => _makeTile(chatRooms[index]),
+                separatorBuilder: (context, index) => Gaps.v10,
+                itemCount: chatRooms.length,
+              );
+            },
+            error: (error, stackTrace) => Center(
+              child: Text(
+                error.toString(),
+              ),
             ),
-          );
-        },
-      ),
+            loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
+          ),
     );
   }
 }

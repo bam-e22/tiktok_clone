@@ -28,14 +28,14 @@ export const onVideoCreated = functions.firestore
 
     const db = admin.firestore();
     await db
-            .collection("users")
-            .doc(video.creatorUid)
-            .collection("videos")
-            .doc(snapshot.id)
-            .set({
-                "thumbnailUrl": file.publicUrl(),
-                "videoId": snapshot.id
-            });
+      .collection("users")
+      .doc(video.creatorUid)
+      .collection("videos")
+      .doc(snapshot.id)
+      .set({
+        "thumbnailUrl": file.publicUrl(),
+        "videoId": snapshot.id
+      });
   });
 
 export const onLikedCreated = functions.firestore
@@ -46,9 +46,9 @@ export const onLikedCreated = functions.firestore
     const videoDocRef = db.collection("videos").doc(videoId);
 
     await videoDocRef
-          .update({
-            likes: admin.firestore.FieldValue.increment(1),
-          });
+      .update({
+        likes: admin.firestore.FieldValue.increment(1),
+      });
 
     const videoDoc = await videoDocRef.get();
     const video = videoDoc.data();
@@ -60,8 +60,8 @@ export const onLikedCreated = functions.firestore
         .collection("likes")
         .doc(videoId)
         .set({
-            "thumbnailUrl": video.thumbnailUrl,
-            "videoId": videoId
+          "thumbnailUrl": video.thumbnailUrl,
+          "videoId": videoId
         });
     }
   });
@@ -79,4 +79,46 @@ export const onLikedRemoved = functions.firestore
       });
 
     await db.collection("users").doc(userId).collection("likes").doc(videoId).delete();
+  });
+
+export const onChatRoomCreated = functions.firestore
+  .document("chat_rooms/{chatRoomId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const chatRoom = snapshot.data();
+
+    await db
+      .collection("users")
+      .doc(chatRoom.personA)
+      .collection("chat_rooms")
+      .doc(snapshot.id)
+      .set({ "personA": chatRoom.personA, "personB": chatRoom.personB, "createdAt": chatRoom.createdAt });
+
+    await db
+      .collection("users")
+      .doc(chatRoom.personB)
+      .collection("chat_rooms")
+      .doc(snapshot.id)
+      .set({ "personA": chatRoom.personB, "personB": chatRoom.personA, "createdAt": chatRoom.createdAt });
+  });
+
+export const onChatRoomRemoved = functions.firestore
+  .document("chat_rooms/{chatRoomId}")
+  .onDelete(async (snapshot, context) => {
+    const db = admin.firestore();
+    const chatRoom = snapshot.data();
+
+    await db
+      .collection("users")
+      .doc(chatRoom.personA)
+      .collection("chat_rooms")
+      .doc(snapshot.id)
+      .delete();
+
+    await db
+      .collection("users")
+      .doc(chatRoom.personB)
+      .collection("chat_rooms")
+      .doc(snapshot.id)
+      .delete();
   });
