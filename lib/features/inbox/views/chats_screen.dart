@@ -70,7 +70,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
         ],
       ),
       subtitle: Text(
-        chatRoom.lastMessage,
+        "현재 접속 중",
       ),
     );
   }

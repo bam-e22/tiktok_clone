@@ -18,12 +18,14 @@ class ChatRoomViewModel extends AutoDisposeAsyncNotifier<List<ChatRoomModel>> {
   FutureOr<List<ChatRoomModel>> build() async {
     _authRepository = ref.read(authRepo);
     _chatRoomRepository = ref.read(chatRoomRepo);
-    await _fetchChatRooms();
+    await fetchChatRooms();
     return _list;
   }
 
-  Future<void> _fetchChatRooms() async {
+  Future<void> fetchChatRooms() async {
+    print("_fetchChatRooms");
     state = const AsyncValue.loading();
+    _list.clear();
     final me = _authRepository.user;
     state = await AsyncValue.guard(() async {
       final result = await _chatRoomRepository.fetchChatRooms(me!.uid);
@@ -31,13 +33,11 @@ class ChatRoomViewModel extends AutoDisposeAsyncNotifier<List<ChatRoomModel>> {
         final data = doc.data();
         final otherUid = data["personB"];
         final otherName = await _chatRoomRepository.getUserName(otherUid);
-        final lastMessage = await _chatRoomRepository.getLastMessage(doc.id);
         final chatRoom = ChatRoomModel(
           chatRoomId: doc.id,
           createdAt: data["createdAt"],
           otherUid: otherUid,
           otherName: otherName,
-          lastMessage: lastMessage,
         );
         _list = [..._list, chatRoom];
       }
@@ -56,6 +56,19 @@ class ChatRoomViewModel extends AutoDisposeAsyncNotifier<List<ChatRoomModel>> {
       uid: me.uid,
       otherUid: otherUid,
     );
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final otherName = await _chatRoomRepository.getUserName(otherUid);
+      final newChatRoom = ChatRoomModel(
+        chatRoomId: chatRoomId,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        otherUid: otherUid,
+        otherName: otherName,
+      );
+      _list = [..._list, newChatRoom];
+      return _list;
+    });
+
     if (!context.mounted) return;
     context.pop();
     context.pushNamed(
@@ -70,6 +83,11 @@ class ChatRoomViewModel extends AutoDisposeAsyncNotifier<List<ChatRoomModel>> {
     await _chatRoomRepository.deleteChatRoom(
       chatRoomId: chatRoomId,
     );
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      _list.removeWhere((chatRoom) => chatRoom.chatRoomId == chatRoomId);
+      return _list;
+    });
   }
 }
 

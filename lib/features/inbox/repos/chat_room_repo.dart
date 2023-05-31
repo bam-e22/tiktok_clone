@@ -45,18 +45,6 @@ class ChatRoomRepository {
     return await chatRoomsQuery.get();
   }
 
-  Future<String> getLastMessage(String chatRoomId) async {
-    final query = _db
-        .collection("chat_rooms")
-        .doc(chatRoomId)
-        .collection("text")
-        .orderBy("createdAt", descending: true)
-        .limit(1);
-    final result = await query.get();
-    final message = result.docs.first;
-    return message.data()["text"] ?? "";
-  }
-
   Future<String> getUserName(String uid) async {
     final query = _db.collection("users").doc(uid);
     final user = await query.get();
