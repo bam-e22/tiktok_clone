@@ -63,6 +63,22 @@ export const onLikedCreated = functions.firestore
           "thumbnailUrl": video.thumbnailUrl,
           "videoId": videoId
         });
+
+        // send message to video creator
+        const creatorUid = video.creatorUid;
+        const videoCreator = await(await db.collection("users").doc(creatorUid).get()).data();
+        if (videoCreator) {
+            const token = videoCreator.token;
+            admin.messaging().sendToDevice(token, {
+                data: {
+                    screen: "123",
+                },
+                notification: {
+                    title: "someone liked you video",
+                    body: "Likes + 1! Congrats!"
+                }
+            })
+        }
     }
   });
 
