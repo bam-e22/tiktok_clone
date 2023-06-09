@@ -7,23 +7,107 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tiktok_clone/main.dart';
+import 'package:tiktok_clone/features/authentication/views/widgets/form_button.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const TikTokApp());
+  group("Form Button Tests", () {
+    testWidgets("Enabled State", (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const Directionality(
+          textDirection: TextDirection.ltr,
+          child: FormButton(enabled: true),
+        ),
+      );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      expect(find.text("Next"), findsOneWidget);
+      expect(
+        tester
+            .firstWidget<AnimatedDefaultTextStyle>(
+                find.byType(AnimatedDefaultTextStyle))
+            .style
+            .color,
+        Colors.white,
+      );
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    testWidgets("Enabled State. background color is primary color",
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Theme(
+          data: ThemeData(primaryColor: Colors.red),
+          child: const Directionality(
+            textDirection: TextDirection.ltr,
+            child: FormButton(enabled: true),
+          ),
+        ),
+      );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      expect(find.text("Next"), findsOneWidget);
+      expect(
+        (tester
+                .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
+                .decoration as BoxDecoration)
+            .color,
+        Colors.red,
+      );
+    });
+
+    testWidgets("Disabled State", (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MediaQuery(
+          data: MediaQueryData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: FormButton(enabled: false),
+          ),
+        ),
+      );
+
+      expect(find.text("Next"), findsOneWidget);
+      expect(
+        tester
+            .firstWidget<AnimatedDefaultTextStyle>(
+                find.byType(AnimatedDefaultTextStyle))
+            .style
+            .color,
+        Colors.grey.shade400,
+      );
+    });
+
+    testWidgets("Disabled State, DarkMode", (WidgetTester tester) async {
+      await tester.pumpWidget(const MediaQuery(
+        data: MediaQueryData(platformBrightness: Brightness.dark),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: FormButton(enabled: false),
+        ),
+      ));
+
+      expect(
+        (tester
+                .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
+                .decoration as BoxDecoration)
+            .color,
+        Colors.grey.shade800,
+      );
+    });
+
+    testWidgets("Disabled State, LightMode", (WidgetTester tester) async {
+      await tester.pumpWidget(const MediaQuery(
+        data: MediaQueryData(platformBrightness: Brightness.light),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: FormButton(enabled: false),
+        ),
+      ));
+
+      expect(
+        (tester
+                .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
+                .decoration as BoxDecoration)
+            .color,
+        Colors.grey.shade300,
+      );
+    });
   });
 }
